@@ -4,6 +4,7 @@
 
 import settings as C
 from funcs import *
+from interfaces import *
 
 # ========================================================================
 # main
@@ -18,18 +19,11 @@ C=parse_cmdline(C)
 di_cache=load_cache(C)
 
 # ------------------------------------------------------------------------
-# question loop
-# KK: improve
-question = ""
-while question != "quit":
-  # KK: get the question form somewhere else too (e.g. splunk)
-  question = raw_input("key to lookup ('quit' to stop): ")
-  if question == "quit":
-    break
-  di_cache, answer = lookup(C, di_cache, question)
-  print answer
+# which interface to use?
+if C.SplunkLookup:
+    splunk (C, di_cache, C.SplunkLookup[0], C.SplunkLookup[1])
+else:
+    manual(C, di_cache)
 
-
-
-# check whether we have a short number, a +41 or 0041; other numbers
-# should not be asked to this service
+# KK: check whether we have a short number, a +41 or 0041; other numbers
+# KK: should not be asked to this service
