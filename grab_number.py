@@ -12,7 +12,7 @@ from interfaces import *
 # ------------------------------------------------------------------------
 # get settings which override defaults
 # KK: todo config file parsing / how to handle a different config file passed on the cmdline?
-C=parse_cmdline(C)
+parse_cmdline(C)
 
 # ------------------------------------------------------------------------
 # load the cache

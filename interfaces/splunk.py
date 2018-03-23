@@ -28,7 +28,5 @@ def splunk(C, di_cache, TelNumFieldname="number", NameFieldname="name"):
 
     for result in r:
         if result[TelNumFieldname]:
-            di_cache, result[NameFieldname] = lookup(C, di_cache, result[TelNumFieldname])
+            result[NameFieldname] = lookup(C, di_cache, result[TelNumFieldname])
             w.writerow(result)
-
-    return (di_cache)

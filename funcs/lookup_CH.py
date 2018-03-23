@@ -58,21 +58,21 @@ def lookup_CH(C, di_cache, question):
     if di_cache[question]["cache_type"] == "permanent":
       log(C, severity="I", msg='ID=%s location=%s answer="%s"' % (
                 ID, "cache_permanent", di_cache[question]["title"]))
-      return (di_cache, di_cache[question]["title"])
+      return (di_cache[question]["title"])
 
     # negative cache
     if di_cache[question]["cache_type"] == "negative":
       if di_cache[question]["last_update"] > int(time.time()) - C.CacheAgeNegative:
         log(C, severity="I", msg='ID=%s location=%s answer="%s"' % (
                   ID, "cache_negative", di_cache[question]["title"]))
-        return (di_cache, di_cache[question]["title"])
+        return (di_cache[question]["title"])
 
     # positive cache
     if di_cache[question]["cache_type"] == "positive":
       if di_cache[question]["last_update"] > int(time.time()) - C.CacheAge:
         log(C, severity="I", msg='ID=%s location=%s answer="%s"' % (
                   ID, "cache_positive", di_cache[question]["title"]))
-        return (di_cache, di_cache[question]["title"])
+        return (di_cache[question]["title"])
 
   # if we do have an APIKey, then use it (create a dict to merge), if we
   # don't have one, use an empty dict instead
@@ -93,11 +93,11 @@ def lookup_CH(C, di_cache, question):
       log(C, severity="I", msg='ID="%s" location=%s answer="%s"' % (
                 ID, di_cache[question]["cache_type"] + "_expired",
                 di_cache[question]["title"]))
-      return (di_cache, di_cache[question]["title"])
+      return (di_cache[question]["title"])
     else:
       log(C, severity="I", msg='ID=%s location=%s answer="%s"' % (
                 ID, "lookup_failed", question))
-      return (di_cache, question)
+      return (question)
 
   if C.DEBUG:
     entrynum=0
@@ -114,7 +114,7 @@ def lookup_CH(C, di_cache, question):
                           "cache_type": "positive",
                          }
     save_cache(C, di_cache)
-    return (di_cache, rss.entries[0].title)
+    return (rss.entries[0].title)
   except:
     log(C, severity="W", msg='ID=%s msg="lookup successful but result not parsable"' % ID)
     log(C, severity="I", msg='ID=%s location=%s answer="%s"' % (
@@ -124,5 +124,5 @@ def lookup_CH(C, di_cache, question):
                           "cache_type": "negative",
                          }
     save_cache(C, di_cache)
-    return (di_cache, question)
+    return (question)
 

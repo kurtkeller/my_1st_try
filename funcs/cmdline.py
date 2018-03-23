@@ -58,5 +58,3 @@ def parse_cmdline(C):
         msg += "%s=%s " % (F, C_items[F])
     log(C, severity="D", msg=msg)
 
-
-  return(C)

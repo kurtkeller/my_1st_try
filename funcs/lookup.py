@@ -23,4 +23,4 @@ def lookup(C, di_cache, question):
     return lookup_CH(C,di_cache, question)
 
   # fallback (all not configured counries)
-  return (di_cache, question)
+  return (question)

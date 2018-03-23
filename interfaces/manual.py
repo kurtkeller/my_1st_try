@@ -9,5 +9,4 @@ def manual(C, di_cache):
         question = raw_input("key to lookup ('quit' to stop): ")
         if question == "quit":
             break
-        di_cache, answer = lookup(C, di_cache, question)
-        print answer
+        print lookup(C, di_cache, question)
