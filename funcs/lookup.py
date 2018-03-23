@@ -6,8 +6,6 @@ import sha
 from .logging import *
 from .caching import *
 
-
-
 # ------------------------------------------------------------------------
 # lookup
 # ------------------------------------------------------------------------
@@ -50,10 +48,31 @@ def lookup(C, di_cache, question):
   # ----------------------------------------------------------------------
   # first check the cache
   if question in di_cache:
-    if di_cache[question]["last_update"] > int(time.time()) - C.CacheAge:
+
+    # remove (old) entries, which do not yet have a cache_type associated
+    if not "cache_type" in di_cache[question]:
+      di_cache.pop(question)
+
+  if question in di_cache:
+    # permanent cache
+    if di_cache[question]["cache_type"] == "permanent":
       log(C, severity="I", msg='ID=%s location=%s answer="%s"' % (
-                ID, "cache_positive", di_cache[question]["title"]))
+                ID, "cache_permanent", di_cache[question]["title"]))
       return (di_cache, di_cache[question]["title"])
+
+    # negative cache
+    if di_cache[question]["cache_type"] == "negative":
+      if di_cache[question]["last_update"] > int(time.time()) - C.CacheAgeNegative:
+        log(C, severity="I", msg='ID=%s location=%s answer="%s"' % (
+                  ID, "cache_negative", di_cache[question]["title"]))
+        return (di_cache, di_cache[question]["title"])
+
+    # positive cache
+    if di_cache[question]["cache_type"] == "positive":
+      if di_cache[question]["last_update"] > int(time.time()) - C.CacheAge:
+        log(C, severity="I", msg='ID=%s location=%s answer="%s"' % (
+                  ID, "cache_positive", di_cache[question]["title"]))
+        return (di_cache, di_cache[question]["title"])
 
   # if we do have an APIKey, then use it (create a dict to merge), if we
   # don't have one, use an empty dict instead
@@ -72,7 +91,8 @@ def lookup(C, di_cache, question):
                             ID, rss.status))
     if question in di_cache:
       log(C, severity="I", msg='ID="%s" location=%s answer="%s"' % (
-                ID, "cache_expired", di_cache[question]["title"]))
+                ID, di_cache[question]["cache_type"] + "_expired",
+                di_cache[question]["title"]))
       return (di_cache, di_cache[question]["title"])
     else:
       log(C, severity="I", msg='ID=%s location=%s answer="%s"' % (
@@ -90,12 +110,19 @@ def lookup(C, di_cache, question):
     log(C, severity="I", msg='ID=%s location=%s answer="%s"' % (
               ID, "lookup_succeeded", rss.entries[0].title))
     di_cache[question] = {"title": rss.entries[0].title,
-                          "last_update": int(time.time())}
+                          "last_update": int(time.time()),
+                          "cache_type": "positive",
+                         }
     save_cache(C, di_cache)
     return (di_cache, rss.entries[0].title)
   except:
     log(C, severity="W", msg='ID=%s msg="lookup successful but result not parsable"' % ID)
     log(C, severity="I", msg='ID=%s location=%s answer="%s"' % (
               ID, "lookup_failed", question))
+    di_cache[question] = {"title": rss.entries[0].title,
+                          "last_update": int(time.time()),
+                          "cache_type": "negative",
+                         }
+    save_cache(C, di_cache)
     return (di_cache, question)
 
