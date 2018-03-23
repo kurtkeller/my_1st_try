@@ -43,13 +43,15 @@ def parse_cmdline(C):
 
   if C.DEBUG or args.DEBUG:
     msg="settings before cmdline parsing: "
-    for F in vars(C):
-      if type(C.__dict__[F]) != type(C) and F[:2] != "__":
-        msg += "%s=%s " % (F, C.__dict__[F])
+    C_items = vars(C)
+    for F in C_items:
+      if type(C_items[F]) != type(C) and F[:2] != "__":
+        msg += "%s=%s " % (F, C_items[F])
     log(C, severity="D", msg=msg)
     msg="parsed cmdline arguments: "
-    for F in args.__dict__:
-      msg += "%s=%s " % (F, args.__dict__[F])
+    C_items = vars(args)
+    for F in C_items:
+      msg += "%s=%s " % (F, C_items[F])
     log(C, severity="D", msg=msg)
 
   # replace parameters which are not None / False / 0 / "" / ...
@@ -59,9 +61,10 @@ def parse_cmdline(C):
 
   if C.DEBUG or args.DEBUG:
     msg="settings after cmdline parsing: "
-    for F in vars(C):
-      if type(C.__dict__[F]) != type(C) and F[:2] != "__":
-        msg += "%s=%s " % (F, C.__dict__[F])
+    C_items = vars(C)
+    for F in C_items:
+      if type(C_items[F]) != type(C) and F[:2] != "__":
+        msg += "%s=%s " % (F, C_items[F])
     log(C, severity="D", msg=msg)
 
   return(C)
