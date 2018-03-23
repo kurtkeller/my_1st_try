@@ -93,7 +93,7 @@ def log(C, msg="no message given",
   # write the logline
   print >>fi_out, "%s %s: %s" % (
                         time.strftime("%Y-%m-%dT%H:%M:%S",time.localtime(date)),
-                        DI_severity[severity], msg)
+                        DI_severity[severity], msg.encode("UTF-8"))
   # do not close the file, because it could be sys.stdout or sys.stderr
 
   # flush while debugging to immediately see what is going on
