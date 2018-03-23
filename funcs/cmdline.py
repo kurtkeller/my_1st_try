@@ -39,32 +39,24 @@ def parse_cmdline(C):
            "requires the fieldname from which to read telephone number (NumberField) " + \
            "and the fieldname into which to write the result (NameField)")
 
-  args = parser.parse_args()
-
-  if C.DEBUG or args.DEBUG:
+  if C.DEBUG:
     msg="settings before cmdline parsing: "
     C_items = vars(C)
     for F in C_items:
       if type(C_items[F]) != type(C) and F[:2] != "__":
         msg += "%s=%s " % (F, C_items[F])
     log(C, severity="D", msg=msg)
-    msg="parsed cmdline arguments: "
-    C_items = vars(args)
-    for F in C_items:
-      msg += "%s=%s " % (F, C_items[F])
-    log(C, severity="D", msg=msg)
 
-  # replace parameters which are not None / False / 0 / "" / ...
-  for key in args.__dict__:
-    if args.__dict__[key]:
-      C.__dict__[key] = args.__dict__[key]
+  args = parser.parse_args(namespace=C)
 
-  if C.DEBUG or args.DEBUG:
+  if C.DEBUG:
+    # parameters after command line parsing
     msg="settings after cmdline parsing: "
     C_items = vars(C)
     for F in C_items:
       if type(C_items[F]) != type(C) and F[:2] != "__":
         msg += "%s=%s " % (F, C_items[F])
     log(C, severity="D", msg=msg)
+
 
   return(C)
