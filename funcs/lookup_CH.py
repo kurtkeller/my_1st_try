@@ -119,7 +119,7 @@ def lookup_CH(C, di_cache, question):
     log(C, severity="W", msg='ID=%s msg="lookup successful but result not parsable"' % ID)
     log(C, severity="I", msg='ID=%s location=%s answer="%s"' % (
               ID, "lookup_failed", question))
-    di_cache[question] = {"title": rss.entries[0].title,
+    di_cache[question] = {"title": question,
                           "last_update": int(time.time()),
                           "cache_type": "negative",
                          }
