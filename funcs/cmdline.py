@@ -1,10 +1,11 @@
 import argparse
 import ConfigParser
-from .logging import *
+from common import settings as C
+from common import logging as L
 
 # ------------------------------------------------------------------------
 # parse the command line
-def parse_cmdline(C):
+def parse_cmdline():
 
   parser = argparse.ArgumentParser(
       description=\
@@ -48,7 +49,7 @@ def parse_cmdline(C):
     for F in C_items:
       if type(C_items[F]) != type(C) and F[:2] != "__":
         msg += "%s=%s " % (F, C_items[F])
-    log(C, severity="D", msg=msg)
+    L.log(severity="D", msg=msg)
 
   args = parser.parse_args(namespace=C)
 
@@ -59,5 +60,5 @@ def parse_cmdline(C):
     for F in C_items:
       if type(C_items[F]) != type(C) and F[:2] != "__":
         msg += "%s=%s " % (F, C_items[F])
-    log(C, severity="D", msg=msg)
+    L.log(severity="D", msg=msg)
 

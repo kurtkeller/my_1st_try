@@ -1,6 +1,7 @@
 import csv
 import sys
 from funcs import *
+from common import settings as C
 
 """
     Modeled after the splunk external_lookup.py sample.
@@ -15,7 +16,7 @@ from funcs import *
 
 """
 
-def splunk(C, di_cache, TelNumFieldname="number", NameFieldname="name"):
+def splunk(di_cache, TelNumFieldname="number", NameFieldname="name"):
 
     infile = sys.stdin
     outfile = sys.stdout
@@ -28,5 +29,5 @@ def splunk(C, di_cache, TelNumFieldname="number", NameFieldname="name"):
 
     for result in r:
         if result[TelNumFieldname]:
-            result[NameFieldname] = lookup(C, di_cache, result[TelNumFieldname])
+            result[NameFieldname] = lookup(di_cache, result[TelNumFieldname])
             w.writerow(result)

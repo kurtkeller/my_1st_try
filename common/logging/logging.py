@@ -1,5 +1,6 @@
 import sys
 import time
+from common import settings as C
 # KK: add file locking
 
 # ----------------------------------------------------------------------
@@ -25,7 +26,7 @@ DI_severity = {
 # ------------------------------------------------------------------------
 # log
 # ------------------------------------------------------------------------
-def log(C, msg="no message given",
+def log(msg="no message given",
         severity="W", out=None, date=None):
 
   """
@@ -39,7 +40,6 @@ def log(C, msg="no message given",
 
   log(C, msg, [severity], [out], [date])
 
-    C           the global config
     msg         type:       string
                 description:
                     the messae to write to the log
