@@ -16,7 +16,7 @@ from common import settings as C
 
 """
 
-def splunk(di_cache, TelNumFieldname="number", NameFieldname="name"):
+def splunk(cache, TelNumFieldname="number", NameFieldname="name"):
 
     infile = sys.stdin
     outfile = sys.stdout
@@ -29,5 +29,5 @@ def splunk(di_cache, TelNumFieldname="number", NameFieldname="name"):
 
     for result in r:
         if result[TelNumFieldname]:
-            result[NameFieldname] = lookup(di_cache, result[TelNumFieldname])
+            result[NameFieldname] = lookup(cache, result[TelNumFieldname])
             w.writerow(result)

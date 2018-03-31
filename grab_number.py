@@ -16,14 +16,15 @@ parse_cmdline()
 
 # ------------------------------------------------------------------------
 # load the cache
-di_cache=load_cache()
+cache=caching.Cache()
+cache.load()
 
 # ------------------------------------------------------------------------
 # which interface to use?
 if C.SplunkLookup:
-    splunk (di_cache, C.SplunkLookup[0], C.SplunkLookup[1])
+    splunk (cache, C.SplunkLookup[0], C.SplunkLookup[1])
 else:
-    manual(di_cache)
+    manual(cache)
 
 # KK: check whether we have a short number, a +41 or 0041; other numbers
 # KK: should not be asked to this service

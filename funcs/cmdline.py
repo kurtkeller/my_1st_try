@@ -28,8 +28,12 @@ def parse_cmdline():
       '--LogLevel', action="store", choices=("X","D","I","N","W","E","C","A","P","S"),
       help="only write log entries at or above this level (default: %s)" % C.LogLevel)
   parser.add_argument(
+      '--CacheType', action="store", choices=("file"),
+      help=\
+      "type of caching mechanism to use (default: %s)" % C.CacheType)
+  parser.add_argument(
       '--CacheFile', action="store", type=argparse.FileType('a'),
-      help="cache file to use (default: %s)" % C.CacheFile)
+      help="cache file to use with CacheType=file (default: %s)" % C.CacheFile)
   parser.add_argument(
       '--CacheAge', action="store", type=int,
       help=\

@@ -4,10 +4,10 @@ from common import settings as C
 
 # ------------------------------------------------------------------------
 # specify addresses manually
-def manual(di_cache):
+def manual(cache):
     question = ""
     while question != "quit":
         question = raw_input("key to lookup ('quit' to stop): ")
         if question == "quit":
             break
-        print lookup(di_cache, question)
+        print lookup(cache, question)
