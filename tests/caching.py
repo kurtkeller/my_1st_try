@@ -1,4 +1,7 @@
 #!/bin/env python
+# -*- coding: UTF-8 -*-
+# vim: set et ai ci sm tw=78 si sw=4 ru filetype=python fileencoding=utf-8 :
+
 
 import sys
 import time
@@ -19,7 +22,7 @@ testnum = "55555555"
 
 
 # ------------------------------------------------------------------------
-try: 
+try:
   print "=== test file cache: ",
   tmp_file = tempfile.NamedTemporaryFile()
   tmp_file.close()
@@ -30,7 +33,7 @@ try:
 
   assert len(cache) == 1, "len() unsuccessful"
   sys.stdout.write(".")
-  assert cache[homenum] == home, "[] unsuccessful" 
+  assert cache[homenum] == home, "[] unsuccessful"
   sys.stdout.write(".")
   assert cache.get(homenum) == home, "get() unsuccessful"
   sys.stdout.write(".")
