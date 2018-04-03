@@ -70,16 +70,25 @@ def log(C, msg="no message given",
 
 
   # ----------------------------------------------------------------------
+  # if debug set, it overrules any lower C.LogLevel
+  if C.LogLevel == "X":
+      tmp_LogLevel = C.LogLevel
+  elif C.DEBUG:
+      tmp_LogLevel = "D"
+  else:
+      tmp_LogLevel = C.LogLevel
+
+  # ----------------------------------------------------------------------
   # defaults
-  if C.LogFile == "S":
+  if tmp_LogLevel == "S":
     return                      # shortcut, no logging here
   if not out:
     out=C.LogFile
   if not date:
     date=int(time.time())
 
-  # debug output goes to STDERR, not the logfile, unless C.LogLevel is "X"
-  if (severity == "D") and (C.LogLevel != "X"):
+  # debug output goes to STDERR, not the logfile, unless tmp_LogLevel is "X"
+  if (severity == "D") and (tmp_LogLevel != "X"):
     out=sys.stderr
 
   # ----------------------------------------------------------------------
@@ -94,8 +103,8 @@ def log(C, msg="no message given",
     severity="W"
 
   # ----------------------------------------------------------------------
-  # skip if the severity of the logline is above C.LogLevel
-  if DI_severity[severity][0] > DI_severity[C.LogLevel][0]:
+  # skip if the severity of the logline is above tmp_LogLevel
+  if DI_severity[severity][0] > DI_severity[tmp_LogLevel][0]:
     return
 
   # ----------------------------------------------------------------------
