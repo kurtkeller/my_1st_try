@@ -8,9 +8,12 @@ from common import settings as C
 # ------------------------------------------------------------------------
 # specify addresses manually
 def manual(cache):
-    question = ""
-    while question != "quit":
-        question = raw_input("key to lookup ('quit' to stop): ")
-        if question == "quit":
-            break
-        print lookup(cache, question)
+    if C.number:
+        print lookup(cache, C.number)
+    else:
+        question = ""
+        while question != "quit":
+            question = raw_input("key to lookup ('quit' to stop): ")
+            if question == "quit":
+                break
+            print lookup(cache, question)

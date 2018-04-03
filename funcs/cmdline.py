@@ -13,9 +13,20 @@ def parse_cmdline():
   parser = argparse.ArgumentParser(
       description=\
       'lookup a Swiss telephone number on search.ch through their API')
+  subparsers = parser.add_subparsers(
+      dest="parsed_command",
+      title="commands",
+      help="run with --help at the end to get command specific help / " +
+           "run with --help at the beginning to get help for options " +
+           "which are valid for all commands / options valid for all " +
+           "commands must be specified before the command, options " +
+           "specific to a command must be specified after the command")
+
+
+  # arguments valid for all subcommands
   parser.add_argument(
        "-v", "--version", action="version",
-       version="%(prog)s v" + C.version)
+       version="%(prog)s v" + str(C.version))
   parser.add_argument(
       '--debug', action="store_true", dest="DEBUG",
       help="enable debugging output (default: %s)" % C.DEBUG)
@@ -41,14 +52,71 @@ def parse_cmdline():
       '--CacheAge', action="store", type=int,
       help=\
       "how long to keep cached entries in seconds (default: %i)" % C.CacheAge)
-  parser.add_argument(
+
+
+  # version subcommand
+  parser_version = subparsers.add_parser("version",
+      description="show the program version and exit")
+
+
+  # help subcommand
+  parser_help = subparsers.add_parser("help",
+      description="show the usage help and exit")
+
+
+  # query subcommand
+  parser_query = subparsers.add_parser("query",
+      description="query a telephone number")
+  parser_query.add_argument(
       '--APIKey', action="store",
       help="APIKey for search.ch")
-  parser.add_argument(
+  parser_query.add_argument(
       '--SplunkLookup', action="store", nargs=2, metavar=("NumberField", "NameField"),
       help="use as an external lookup in splunk>; " + \
            "requires the fieldname from which to read telephone number (NumberField) " + \
            "and the fieldname into which to write the result (NameField)")
+  parser_query.add_argument(
+      '--number', action="store", type=str,
+      help="an optional telephone number to query; if none is given the user will then be asked for one")
+
+
+  # del subcommand
+  parser_del = subparsers.add_parser("del",
+      description="delete an entry from the cache")
+  parser_del.add_argument(
+      '--number', action="store", type=str, required=True,
+      help="the number to delete")
+
+
+  # add subcommand
+  parser_add = subparsers.add_parser("add",
+      description="add an entry to the cache")
+  parser_add.add_argument(
+      '--number', action="store", type=str, required=True,
+      help="the number to add")
+  parser_add.add_argument(
+      '--ItemType', action="store", default="permanent",
+      choices=("permanent","positive","negative"),
+      help="the type of number entry to add")
+  parser_add.add_argument(
+      '--Title', action="store", type=str, required=True,
+      help="the text/title to add for this number")
+
+
+  # list subcommand
+  parser_list = subparsers.add_parser("list",
+      description="list all entries in the cache")
+  parser_list.add_argument(
+      '--ReadableDates', action="store_true",
+      help="Add a human readable representation for dates.")
+  parser_list.add_argument(
+      '--ItemTypes', action="store", default="all",
+      choices=("all","negative","positive","permanent"),
+      help="Only list items of this type.")
+  parser_list.add_argument(
+      '--number', action="store", type=str,
+      help="an optional telephone number to list; if none is given all are listed")
+
 
   if C.DEBUG:
     msg="settings before cmdline parsing: "
@@ -69,3 +137,12 @@ def parse_cmdline():
         msg += "%s=%s " % (F, C_items[F])
     L.log(severity="D", msg=msg)
 
+
+  if C.parsed_command in ("version", "help"):
+      parser.parse_args(["--" + C.parsed_command])
+
+
+
+
+
+#KK: try parents for common attributes

@@ -14,7 +14,7 @@ from funcs import caching as Cache
 
 # ------------------------------------------------------------------------
 # define test data
-home = {'last_update': int(time.time()), 'cache_type': 'positive',
+home = {'date_last_update': int(time.time()), 'cache_type': 'positive',
         'title': u'Max Testermann, Testhausen'}
 homenum = "33333333"
 test = {"TEST": True, "WORKING": True}
@@ -27,7 +27,8 @@ try:
   tmp_file = tempfile.NamedTemporaryFile()
   tmp_file.close()
   C.CacheFile=tmp_file.name
-  cache = Cache.Cache("file")
+  C.CacheType="file"
+  cache = Cache.Cache()
   cache[homenum] = home
 
 
@@ -68,7 +69,8 @@ try:
   del cache[testnum]
 
   for item in cache:
-    assert type(item) == type({}) and len(item) > 0, "for ... in unsuccessful"
+    assert type(item) == type(()) and len(item) == 2 and \
+           type(item[0]) == type("") and type(item[1]) == type({}), "for ... in unsuccessful"
   sys.stdout.write(".")
 
   keys = cache.keys()
@@ -87,6 +89,9 @@ try:
   sys.stdout.write(".")
   assert (testnum in cache) == False, "... in when missing unsuccessful"
   sys.stdout.write(".")
+
+  assert type(cache.list()) == type("") and \
+         len(cache.list()) > 0, "list function and with it printing it unsuccessful"
 
   print " all tests OK"
 

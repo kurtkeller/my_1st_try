@@ -13,3 +13,5 @@ LogFile = "/tmp/tel_lookup.log"         # KK: need different location
 LogLevel = "W"                          # don't write logs below this level
 ConfigFile = "/tmp/tel_lookup.cfg"      # KK: need different location
 APIKey = ""
+ItemTypes = "all"
+ReadableDates = False

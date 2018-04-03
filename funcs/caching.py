@@ -3,9 +3,12 @@
 # vim: set et ai ci sm tw=78 si sw=4 ru filetype=python fileencoding=utf-8 :
 
 import cPickle
+import time
+import json
 from common import settings as C
 from common import logging as L
 
+cache_version = 1.001
 
 # ============================================================================
 class Cache():
@@ -15,27 +18,21 @@ class Cache():
     """
 
     # ------------------------------------------------------------------------
-#KK:    def __init__(self, cachetype="file"):
-    def __init__(self, cachetype=C.CacheType):
+    def __init__(self):
     # ------------------------------------------------------------------------
         """
-        parameters:
-            cachetype       type of cache to use
-                            currently supported types:
-                            - file      in a file on the disk
-                                        file is pickle format
-                                        filename taken from
-                                        C.CacheFile
+        initialization
         """
 
         L.log(severity="D",
             msg='action=init_cache type="%s"' %
-                 (cachetype))
+                 (C.CacheType))
         self.cache = {}
 
-        if cachetype not in ("file"):
-            raise SystemExit("unsupported cache type: %s" % cachetype)
-        self.type = cachetype
+        if C.CacheType not in ("file"):
+            raise SystemExit("unsupported cache type: %s" % C.CacheType)
+        # keep the type, no matter whether we change the config later
+        self.type = C.CacheType
 
     # ------------------------------------------------------------------------
     def __getitem__(self, key):
@@ -47,7 +44,7 @@ class Cache():
         """
 
         L.log(severity="D",
-            msg='action=get_cache_item key="%s"' % (key))
+            msg='action=get_cache_getitem key="%s"' % (key))
         if key in self.cache:
             return self.cache[key]
         else:
@@ -122,10 +119,29 @@ class Cache():
             raise StopIteration
         currkey = self.iter[0]
         self.iter = self.iter[1:]
-        return {"key": currkey, "value": self.cache[currkey]}
+        return (currkey, self.cache[currkey])
+
     # Python 3: def __next__(self): / Python 2: def next(self):
     # support both:
     next = __next__
+
+    # ------------------------------------------------------------------------
+    def __repr__(self):
+    # ------------------------------------------------------------------------
+        """
+        print the cache
+        """
+
+        return self.list()
+
+    # ------------------------------------------------------------------------
+    def __str__(self):
+    # ------------------------------------------------------------------------
+        """
+        print the cache
+        """
+
+        return self.list()
 
     # ------------------------------------------------------------------------
     def get(self, key):
@@ -240,8 +256,12 @@ class Cache():
 
         #KK: add file locking
         try:
-            cache = cPickle.load(file(C.CacheFile,"r"))
-            self.cache = cache
+            tmp_cache = cPickle.load(file(C.CacheFile,"r"))
+            if tmp_cache.has_key("cache_version"):
+                tmp_version = tmp_cache["cache_version"]
+            else:
+                tmp_version = 0.1
+            self.cache = self._upgrade_file(tmp_cache, tmp_version)
             L.log(severity="I", msg='action=load_cache result=success')
         except:
             L.log(severity="W", msg='action=load_cache result=failure')
@@ -254,10 +274,85 @@ class Cache():
         """
 
         #KK: add file locking
+        tmp_cache = {"cache_version": cache_version,
+                     "date_last_saved": time.time(),
+                     "contents": self.cache}
         try:
-            cPickle.dump(self.cache, file(C.CacheFile,"w"))
+            cPickle.dump(tmp_cache, file(C.CacheFile,"w"))
             L.log(severity="I", msg='action=save_cache result=success')
         except:
             L.log(severity="W", msg='action=save_cache result=failure')
 
+    # ------------------------------------------------------------------------
+    def _upgrade_file(self, tmp_cache, tmp_version):
+    # ------------------------------------------------------------------------
+        """
+        upgrade the cache to the current version
+
+        receives:
+        - tmp_cache:        The actual cache loaded.
+                            a dictionary
+        - tmp_version:      The version info of the passed cache.
+                            a float
+
+        returns:
+        - The (possibly upgraded) actual cache contents, without the enclosing
+          container.
+          a dictionary
+        """
+
+        # up to date - shortcut
+        if tmp_version >= cache_version:
+            return tmp_cache["contents"]
+
+        # very old format without container
+        if tmp_version < 0.900:
+            new_cache = tmp_cache
+        else:
+            new_cache = tmp_cache["contents"]
+
+        # before 1.000
+        if tmp_version < 1.000:
+            # not all entries did have a cache_type key
+            for item in new_cache.values():
+                if not item.has_key("cache_type"):
+                    item["cache_type"] = "negative"
+
+        # before 1.000
+        if tmp_version < 1.000:
+            # might still have the last_update key instead of date_last_update
+            for item in new_cache.values():
+                if item.has_key("last_update"):
+                    item["date_last_update"] = item["last_update"]
+                    item.pop("last_update")
+
+        # all updates done
+        return new_cache
+
+    # ------------------------------------------------------------------------
+    def list(self):
+    # ------------------------------------------------------------------------
+        """
+        return a string of the contents of the cache in json format
+        """
+
+        if C.number:
+            if C.number in self.cache:
+                tmp_cache = { C.number: self.cache[C.number]}
+            else:
+                tmp_cache = { }
+        else:
+            tmp_cache = dict(self.items())
+        if C.ItemTypes != "all":
+            for key in tmp_cache.keys():
+                if (not tmp_cache[key].has_key("cache_type")) or \
+                   (tmp_cache[key]["cache_type"] != C.ItemTypes):
+                      tmp_cache.pop(key)
+        if C.ReadableDates:
+            for key,value in tmp_cache.items():
+                for inner_key in value.keys():
+                    if inner_key[:5] == "date_":
+                        tmp_cache[key]["readable_" + inner_key] = \
+                            time.ctime(tmp_cache[key][inner_key])
+        return json.dumps(tmp_cache, indent=2, sort_keys=True)
 

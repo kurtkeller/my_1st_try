@@ -60,14 +60,14 @@ def lookup_CH(cache, question):
 
     # negative cache
     if cache[question]["cache_type"] == "negative":
-      if cache[question]["last_update"] > int(time.time()) - C.CacheAgeNegative:
+      if cache[question]["date_last_update"] > int(time.time()) - C.CacheAgeNegative:
         L.log(severity="I", msg='ID=%s location=%s answer="%s"' % (
                   ID, "cache_negative", cache[question]["title"]))
         return (cache[question]["title"])
 
     # positive cache
     if cache[question]["cache_type"] == "positive":
-      if cache[question]["last_update"] > int(time.time()) - C.CacheAge:
+      if cache[question]["date_last_update"] > int(time.time()) - C.CacheAge:
         L.log(severity="I", msg='ID=%s location=%s answer="%s"' % (
                   ID, "cache_positive", cache[question]["title"]))
         return (cache[question]["title"])
@@ -108,7 +108,7 @@ def lookup_CH(cache, question):
     L.log(severity="I", msg='ID=%s location=%s answer="%s"' % (
               ID, "lookup_succeeded", rss.entries[0].title))
     cache[question] = {"title": rss.entries[0].title,
-                          "last_update": int(time.time()),
+                          "date_last_update": int(time.time()),
                           "cache_type": "positive",
                          }
     return (rss.entries[0].title)
@@ -117,7 +117,7 @@ def lookup_CH(cache, question):
     L.log(severity="I", msg='ID=%s location=%s answer="%s"' % (
               ID, "lookup_failed", question))
     cache[question] = {"title": question,
-                          "last_update": int(time.time()),
+                          "date_last_update": int(time.time()),
                           "cache_type": "negative",
                          }
     return (question)
