@@ -336,7 +336,7 @@ class Cache():
         return a string of the contents of the cache in json format
         """
 
-        if C.number:
+        if C.__dict__.has_key("number"):
             if C.number in self.cache:
                 tmp_cache = { C.number: self.cache[C.number]}
             else:
