@@ -44,13 +44,9 @@ def lookup_CH(cache, question):
   L.log(severity="I", msg='ID=%s question="%s"' % (ID, question))
 
   # ----------------------------------------------------------------------
+  #KK: make this a class which is used by all, only the actual lookup
+  #KK: and storage should be country specific
   # first check the cache
-  if question in cache:
-
-    # remove (old) entries, which do not yet have a cache_type associated
-    if not "cache_type" in cache[question]:
-      cache.pop(question)
-
   if question in cache:
     # permanent cache
     if cache[question]["cache_type"] == "permanent":
