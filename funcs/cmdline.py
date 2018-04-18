@@ -117,6 +117,14 @@ def parse_cmdline():
       '--number', action="store", type=str,
       help="an optional telephone number to list; if none is given all are listed")
 
+  # dump subcommand
+  parser_dump = subparsers.add_parser("dump",
+      description="duump all entries in the cache to STDOUT")
+
+  # restore subcommand
+  parser_restore = subparsers.add_parser("restore",
+      description="read a dumped cache from STDIN and overwrite the real cache with it")
+
 
   if C.DEBUG:
     msg="settings before cmdline parsing: "

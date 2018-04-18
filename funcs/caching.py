@@ -356,3 +356,33 @@ class Cache():
                             time.ctime(tmp_cache[key][inner_key])
         return json.dumps(tmp_cache, indent=2, sort_keys=True)
 
+    # ------------------------------------------------------------------------
+    def dump(self):
+    # ------------------------------------------------------------------------
+        """
+        return the cache in JSON format for backup/transfer purposes
+        """
+
+        return json.dumps(self.cache, indent=2, sort_keys=True)
+
+    # ------------------------------------------------------------------------
+    def restore(self, data):
+    # ------------------------------------------------------------------------
+        """
+        overwrite (restore) the cache with the contents of the string passed
+        in data, which must be JSON format and a proper cache format of ours
+        """
+
+        try:
+            tmp_cache = json.loads(data)
+            if tmp_cache.has_key("cache_version"):
+                tmp_version = tmp_cache["cache_version"]
+            else:
+                tmp_version = 0.1
+            self.cache = self._upgrade_file(tmp_cache, tmp_version)
+            self.save()
+            L.log(severity="I", msg='action=restore_cache result=success')
+            return True
+        except:
+            L.log(severity="W", msg='action=restore_cache result=failure')
+            return False
