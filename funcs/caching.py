@@ -254,7 +254,7 @@ class Cache():
         load the cache from a file
         """
 
-        #KK: add file locking
+        # todo: add file locking
         try:
             tmp_cache = cPickle.load(file(C.CacheFile,"r"))
             if tmp_cache.has_key("cache_version"):
@@ -273,7 +273,7 @@ class Cache():
         save the cache to a file
         """
 
-        #KK: add file locking
+        # todo: add file locking
         tmp_cache = {"cache_version": cache_version,
                      "date_last_saved": time.time(),
                      "contents": self.cache}

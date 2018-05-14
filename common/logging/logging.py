@@ -4,7 +4,7 @@
 import sys
 import time
 from common import settings as C
-# KK: add file locking
+# todo: add file locking
 
 # ----------------------------------------------------------------------
 # settings

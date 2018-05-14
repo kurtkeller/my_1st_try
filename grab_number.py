@@ -13,7 +13,6 @@ from interfaces import *
 # ========================================================================
 # ------------------------------------------------------------------------
 # get settings which override defaults
-# KK: todo config file parsing / how to handle a different config file passed on the cmdline?
 parse_cmdline()
 
 # ------------------------------------------------------------------------
@@ -45,9 +44,3 @@ elif C.parsed_command == "dump":
 
 elif C.parsed_command == "restore":
   cache.restore(sys.stdin.read())
-
-
-
-# KK: check whether we have a short number, a +41 or 0041; other numbers
-# KK: should not be asked to this service
-

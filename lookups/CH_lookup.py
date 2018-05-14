@@ -33,12 +33,13 @@ class CH_lookup(base_lookup):
             di_APIKey = {"key": self.C.APIKey}
         else:
             di_APIKey = {}
-#KK: need to replace self.C.APIurl
+# todo: need to replace self.C.APIurl (which is currently coming from
+#       common/settings/constants.py
         rss = feedparser.parse("%s?%s" % (self.C.APIurl, urllib.urlencode(
                           dict({"was": question, "maxnum":1}, **di_APIKey)
               )))
-        # KK: python3: { **{"was": question, "maxnum": 1}, **{"key": ST_APIKey} }
-        # KK: python3: { **{"was": question, "maxnum": 1}, **di_APIKey }
+        # python3: { **{"was": question, "maxnum": 1}, **{"key": ST_APIKey} }
+        # python3: { **{"was": question, "maxnum": 1}, **di_APIKey }
 
         # lookup unsuccessful
         if rss.status != 200:

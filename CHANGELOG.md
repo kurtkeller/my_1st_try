@@ -4,6 +4,8 @@ CHANGELOG
 v0.3    - ????-???-??   - ???
 -----------------------------
 
+- support: standardize and document todo's
+- support: document coding standards
 - feature: add cache dump (=backup) and restore commands
 - fix:     list did no longer output the whole cache
 - feature: change actual lookups into classes

@@ -153,4 +153,4 @@ def parse_cmdline():
 
 
 
-#KK: try parents for common attributes
+# todo: try parents for common attributes
