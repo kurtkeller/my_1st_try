@@ -4,6 +4,7 @@ CHANGELOG
 v0.3    - ????-???-??   - ???
 -----------------------------
 
+- fix:     choices in cmdline help must not be simple strings
 - support: standardize and document todo's
 - support: document coding standards
 - feature: add cache dump (=backup) and restore commands

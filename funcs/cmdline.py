@@ -39,10 +39,11 @@ def parse_cmdline():
       dest="LogFile",
       help="log file to use (default: %s)" % C.LogFile)
   parser.add_argument(
-      '--LogLevel', action="store", choices=("X","D","I","N","W","E","C","A","P","S"),
+      '--LogLevel', action="store",
+      choices=(["X","D","I","N","W","E","C","A","P","S"]),
       help="only write log entries at or above this level (default: %s)" % C.LogLevel)
   parser.add_argument(
-      '--CacheType', action="store", choices=("file"),
+      '--CacheType', action="store", choices=(["file"]),
       help=\
       "type of caching mechanism to use (default: %s)" % C.CacheType)
   parser.add_argument(
