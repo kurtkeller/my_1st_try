@@ -4,6 +4,7 @@ CHANGELOG
 v0.3    - ????-???-??   - ???
 -----------------------------
 
+- feature: support and info for integration with FreeSwitch
 - fix:     choices in cmdline help must not be simple strings
 - support: standardize and document todo's
 - support: document coding standards
