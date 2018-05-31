@@ -62,3 +62,4 @@ not specific to an existing file
   instance might write changes we do not see and which
   we also might overwrite.
 * make compatible with python3?
+* documentation

@@ -25,6 +25,6 @@ def lookup(cache, question):
 
   # nothing matched, not even the fallback
   L.log(severity="W",
-        msg='question="%s" status=failed msg="no lookup key matched"' % (
+        msg='question="%s" result=failure msg="no lookup key matched"' % (
                             question))
   return (question)
