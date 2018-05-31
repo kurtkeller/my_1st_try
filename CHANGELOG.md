@@ -4,6 +4,10 @@ CHANGELOG
 v0.3    - ????-???-??   - ???
 -----------------------------
 
+- fix:     only lookup values, which look like a valid phone number
+           (we see lots of 'hacking' calls on our telephony server
+            which try to insert SQL injection code by means of the
+            passed phone number)
 - fix:     minor logging and TODO updates
 - feature: support and info for integration with FreeSwitch
 - fix:     choices in cmdline help must not be simple strings

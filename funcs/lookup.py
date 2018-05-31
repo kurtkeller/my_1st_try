@@ -6,6 +6,7 @@ from lookups import *
 from common import settings as C
 from common import logging as L
 
+# which lookup should be use?
 lookup_keys = (
     # Swiss numbers
     ("^0041", CH_lookup), ("^\+41", CH_lookup),
@@ -17,6 +18,15 @@ lookup_keys = (
 
 
 def lookup(cache, question):
+
+  # we get lots of connections to the phone server with caller numbers
+  # trying to do SQL injection; only allow what looks like a valid
+  # phone number
+  if not re.match("^[0-9+ ()-]+$", question):
+    L.log(severity="W",
+          msg='question="%s" result=%s msg="%s"' % (
+               question, "failure", "invalid format for phone number"))
+    return (question)
 
   # lookup which function to call in lookup_keys
   for item in lookup_keys:
