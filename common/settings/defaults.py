@@ -9,8 +9,8 @@ CacheAge = 86400*30                     # max age of cached entries
 CacheAgeNegative = 86400*5              # max age of negative cache entries
 
 #CacheType = "file"                      #
-CacheFile = "/tmp/tel_lookup.cache"     # filelocation for CacheType="file"
-                                        # todo: need different location
+CacheFile = "/var/lib/phone_number_lookup/cache"    # filelocation for
+                                                    # CacheType="file"
 CacheType = "db"
 CacheDBType = "mongodb"
 CacheDBHost = "mongodb"
@@ -21,9 +21,9 @@ CacheDBUser = "test"
 CacheDBPassword = "test"
 CacheDBAuthDB = "phone"
 
-LogFile = "/tmp/tel_lookup.log"         # todo: need different location
+LogFile = "/var/log/phone_number_lookup.log"
 LogLevel = "W"                          # don't write logs below this level
-ConfigFile = "/tmp/tel_lookup.cfg"      # todo: need different location
+ConfigFile = "/phone_number_lookup.cfg"
 APIKey = ""
 ItemTypes = "all"
 ReadableDates = False

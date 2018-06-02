@@ -4,6 +4,11 @@ CHANGELOG
 v0.3    - ????-???-??   - ???
 -----------------------------
 
+- change:  changed default locations for the cache, log and
+           config files
+           ATTENTION!
+           This might need you to adapt things in your
+           installation.
 - feature: new cache type: db with subtype mongodb
 - change:  bumped cache_version to 1.002
 - change:  cache_version is now globally set in constants.py
@@ -30,8 +35,8 @@ v0.3    - ????-???-??   - ???
 - support: add markdown info files
 
 
-v0.2    - 2018-Apr-03
----------------------
+v0.2    - 2018-Apr-03 - infant
+------------------------------
 
 - support: automate some things via Makefile
 - change:  various internal adaptions
@@ -76,5 +81,5 @@ v0.2    - 2018-Apr-03
 
 
 
-v0.1    - 2018-Mar-23   - toddler
+v0.1    - 2018-Mar-23   - newborn
 ---------------------------------

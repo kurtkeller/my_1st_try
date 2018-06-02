@@ -9,10 +9,6 @@ common/logging/logging.py
 -------------------------
 * file locking for the logfile should be implemented
 
-common/settings/defaults.py
----------------------------
-* need different default locations for the files
-
 caching/cache_file.py
 ---------------------
 * file locking when reading and writing the cache
@@ -71,3 +67,28 @@ not specific to an existing file
   we also might overwrite.
 * make compatible with python3?
 * documentation
+
+
+
+
+Future naming ideas:
+====================
+
+v7.0    - ????-???-??   - adult
+-------------------------------
+
+v6.0    - ????-???-??   - teen
+------------------------------
+
+v4.0    - ????-???-??   - gradeschooler
+---------------------------------------
+
+v3.0    - ????-???-??   - kindergartener
+----------------------------------------
+
+v2.0    - ????-???-??   - preschooler
+-------------------------------------
+
+v1.0    - ????-???-??   - toddler
+---------------------------------
+
