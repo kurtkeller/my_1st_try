@@ -4,6 +4,11 @@ CHANGELOG
 v0.3    - ????-???-??   - ???
 -----------------------------
 
+- feature: new cache type: db with subtype mongodb
+- change:  bumped cache_version to 1.002
+- change:  cache_version is now globally set in constants.py
+- change:  cache_version now an attribute of every cache entry
+- change:  caching is now a module of its own
 - fix:     only lookup values, which look like a valid phone number
            (we see lots of 'hacking' calls on our telephony server
             which try to insert SQL injection code by means of the

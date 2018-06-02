@@ -81,6 +81,7 @@ class CH_lookup(base_lookup):
             cache[question] = {"title": question,
                                "date_last_update": int(time.time()),
                                "cache_type": "negative",
+                               "cache_version": self.C.cache_version,
                               }
         # fallback
         return (question)

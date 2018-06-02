@@ -10,7 +10,7 @@ import tempfile
 # we're in the test subdir, simulate running from the top project dir
 sys.path.append("../")
 from common import settings as C
-from funcs import caching as Cache
+from caching import Cache as Cache
 
 # ------------------------------------------------------------------------
 # define test data
@@ -28,7 +28,7 @@ try:
   tmp_file.close()
   C.CacheFile=tmp_file.name
   C.CacheType="file"
-  cache = Cache.Cache()
+  cache = Cache()
   cache[homenum] = home
 
 

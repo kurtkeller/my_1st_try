@@ -13,8 +13,8 @@ common/settings/defaults.py
 ---------------------------
 * need different default locations for the files
 
-funcs/caching.py
-----------------
+caching/cache_file.py
+---------------------
 * file locking when reading and writing the cache
 
 funcs/cmdline.py
@@ -32,8 +32,17 @@ lookups/CH_lookup.py
   (if we decide to use a config file after all) or an optional
   command line parameter specific for CH_lookup (but then we
   should have an interface to give optional command line parameters
-  for all possibl lookups, would be great if we could just code
+  for all possible lookups, would be great if we could just code
   a cmdline parsing snippet inside of the ??_lookup classes)
+
+caching/cache_*.py
+------------------
+* the various CacheDB* parameters should be moved out of
+  common/settings/defaults.py and into some kind of cache
+  specific configuration
+  also the Cache* command line arguments (except for CacheType)
+  should be removed and somehow only added (dynamically) if the 
+  applicable CacheType is set
 
 not specific to an existing file
 --------------------------------
@@ -56,7 +65,6 @@ not specific to an existing file
 * more caching interfaces:
     - mysql
     - sqlite
-    - mongodb?
 * A lock for the file-based caching interfaces possibly
   should stay intact until we exit, otherwise a second
   instance might write changes we do not see and which

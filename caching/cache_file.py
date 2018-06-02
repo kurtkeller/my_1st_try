@@ -8,31 +8,24 @@ import json
 from common import settings as C
 from common import logging as L
 
-cache_version = 1.001
-
 # ============================================================================
-class Cache():
+class cache_file():
 # ============================================================================
     """
-    class for the cache
+    class for the file cache
     """
 
     # ------------------------------------------------------------------------
-    def __init__(self):
+    def __init__(self, cache_version):
     # ------------------------------------------------------------------------
         """
         initialization
         """
 
         L.log(severity="D",
-            msg='action=init_cache type="%s"' %
-                 (C.CacheType))
+            msg='action=init_cache type="file"')
         self.cache = {}
-
-        if C.CacheType not in ("file"):
-            raise SystemExit("unsupported cache type: %s" % C.CacheType)
-        # keep the type, no matter whether we change the config later
-        self.type = C.CacheType
+        self.cache_version = cache_version
 
     # ------------------------------------------------------------------------
     def __getitem__(self, key):
@@ -59,6 +52,8 @@ class Cache():
 
         L.log(severity="D",
             msg='action=set_cache_item key="%s" value="%s"' % (key, value))
+        if not value.has_key("cache_version"):
+            value["cache_version"] = self.cache_version
         self.cache[key] = value
         self.save()
 
@@ -179,7 +174,9 @@ class Cache():
         pop an item from the cache
         """
 
+        result = self[key]
         self.__delitem__(key)
+        return result
 
     # ------------------------------------------------------------------------
     def keys(self):
@@ -215,44 +212,12 @@ class Cache():
     def load(self):
     # ------------------------------------------------------------------------
         """
-        load the cache
-
-        load_cache()
-        """
-
-        L.log(severity="D", msg="action=load_cache type=%s" % self.type)
-        if self.type == "file":
-            self._load_file()
-        else:
-            L.log(severity="C",
-                msg='action=load_cache msg="unsupported cache type: %s"' %
-                     self.type)
-            raise SystemExit("unsupported cache type: %s" % self.type)
-
-    # ------------------------------------------------------------------------
-    def save(self):
-    # ------------------------------------------------------------------------
-        """
-        save the cache and return it
-
-        save_cache()
-        """
-
-        L.log(severity="D", msg="action=save_cache type=%s" % self.type)
-        if self.type == "file":
-            self._save_file()
-        else:
-            L.log(severity="C",
-                msg='action=save_cache msg="unsupported cache type: %s"' %
-                     self.type)
-            raise SystemExit("unsupported cache type: %s" % self.type)
-
-    # ------------------------------------------------------------------------
-    def _load_file(self):
-    # ------------------------------------------------------------------------
-        """
         load the cache from a file
+
+        load()
         """
+
+        L.log(severity="D", msg="action=load_cache type=file")
 
         # todo: add file locking
         try:
@@ -261,20 +226,25 @@ class Cache():
                 tmp_version = tmp_cache["cache_version"]
             else:
                 tmp_version = 0.1
-            self.cache = self._upgrade_file(tmp_cache, tmp_version)
+            self.cache = self._upgrade(tmp_cache, tmp_version)
             L.log(severity="I", msg='action=load_cache result=success')
         except:
             L.log(severity="W", msg='action=load_cache result=failure')
 
+
     # ------------------------------------------------------------------------
-    def _save_file(self):
+    def save(self):
     # ------------------------------------------------------------------------
         """
         save the cache to a file
+
+        save()
         """
 
+        L.log(severity="D", msg="action=save_cache type=file")
+
         # todo: add file locking
-        tmp_cache = {"cache_version": cache_version,
+        tmp_cache = {"cache_version": self.cache_version,
                      "date_last_saved": time.time(),
                      "contents": self.cache}
         try:
@@ -284,7 +254,7 @@ class Cache():
             L.log(severity="W", msg='action=save_cache result=failure')
 
     # ------------------------------------------------------------------------
-    def _upgrade_file(self, tmp_cache, tmp_version):
+    def _upgrade(self, tmp_cache, tmp_version):
     # ------------------------------------------------------------------------
         """
         upgrade the cache to the current version
@@ -302,7 +272,7 @@ class Cache():
         """
 
         # up to date - shortcut
-        if tmp_version >= cache_version:
+        if tmp_version >= self.cache_version:
             return tmp_cache["contents"]
 
         # very old format without container
@@ -325,6 +295,16 @@ class Cache():
                 if item.has_key("last_update"):
                     item["date_last_update"] = item["last_update"]
                     item.pop("last_update")
+
+        # 1.000 -> 1.001: no change required
+
+        # 1.001 -> 1.002: cache_version is now part of each entry
+        #                 the update will automatically be handled
+        #                 by other code segments
+
+        # bump cache_version up to the new value
+        for item in new_cache.values():
+            item["cache_version"] = self.cache_version
 
         # all updates done
         return new_cache
@@ -379,7 +359,7 @@ class Cache():
                 tmp_version = tmp_cache["cache_version"]
             else:
                 tmp_version = 0.1
-            self.cache = self._upgrade_file(tmp_cache, tmp_version)
+            self.cache = self._upgrade(tmp_cache, tmp_version)
             self.save()
             L.log(severity="I", msg='action=restore_cache result=success')
             return True

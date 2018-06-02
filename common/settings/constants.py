@@ -6,4 +6,5 @@
 # ------------------------------------------------------------------------
 # program version
 version = 0.2
+cache_version = 1.002
 APIurl = "http://tel.search.ch/api/"

@@ -7,6 +7,7 @@ import sys
 from common import settings as C
 from funcs import *
 from interfaces import *
+from caching import Cache
 
 # ========================================================================
 # main
@@ -17,7 +18,7 @@ parse_cmdline()
 
 # ------------------------------------------------------------------------
 # load the cache
-cache=caching.Cache()
+cache=Cache()
 cache.load()
 
 # ------------------------------------------------------------------------
@@ -37,7 +38,8 @@ elif C.parsed_command == "del":
 elif C.parsed_command == "add":
   cache[C.number] = {"title": C.Title,
                      "date_last_update": int(time.time()),
-                     "cache_type": C.ItemType}
+                     "cache_type": C.ItemType,
+                     "cache_version": C.cache_version}
 
 elif C.parsed_command == "dump":
   print cache.list()

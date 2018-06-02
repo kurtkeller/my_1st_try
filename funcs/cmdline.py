@@ -41,14 +41,49 @@ def parse_cmdline():
   parser.add_argument(
       '--LogLevel', action="store",
       choices=(["X","D","I","N","W","E","C","A","P","S"]),
-      help="only write log entries at or above this level (default: %s)" % C.LogLevel)
+      help="only write log entries at or above this level " +
+           "(default: %s)" % C.LogLevel)
   parser.add_argument(
-      '--CacheType', action="store", choices=(["file"]),
+      '--CacheType', action="store", choices=(["file", "db"]),
       help=\
       "type of caching mechanism to use (default: %s)" % C.CacheType)
   parser.add_argument(
       '--CacheFile', action="store", type=argparse.FileType('a'),
-      help="cache file to use with CacheType=file (default: %s)" % C.CacheFile)
+      help="cache file to use with CacheType=file " +
+           "(default: %s)" % C.CacheFile)
+  parser.add_argument(
+      '--CacheDBType', action="store",
+      choices=(["mongodb"]),
+      help="cache database type to use with CacheType=db " +
+           "(default: %s)" % C.CacheDBType)
+  parser.add_argument(
+      '--CacheDBHost', action="store", type=str,
+      help="cache database host to connect to with CacheType=db " +
+           "(default: %s)" % C.CacheDBHost)
+  parser.add_argument(
+      '--CacheDBPort', action="store", type=int,
+      help="cache database port to connect to CacheType=db " +
+           "(default: %s)" % C.CacheDBPort)
+  parser.add_argument(
+      '--CacheDBName', action="store", type=str,
+      help="cache database name to use with CacheType=db " +
+           "(default: %s)" % C.CacheDBName)
+  parser.add_argument(
+      '--CacheDBTable', action="store", type=str,
+      help="cache database table to use with CacheType=db " +
+           "(default: %s)" % C.CacheDBTable)
+  parser.add_argument(
+      '--CacheDBUser', action="store", type=str,
+      help="cache database user to use with CacheType=db " +
+           "(default: %s)" % C.CacheDBUser)
+  parser.add_argument(
+      '--CacheDBPassword', action="store", type=str,
+      help="cache database user password to use with CacheType=db " +
+           "(default: %s)" % C.CacheDBType)
+  parser.add_argument(
+      '--CacheDBAuthDB', action="store", type=str,
+      help="cache database auth DB to use with CacheType=db " +
+           "(default: %s)" % C.CacheDBAuthDB)
   parser.add_argument(
       '--CacheAge', action="store", type=int,
       help=\
@@ -72,13 +107,16 @@ def parse_cmdline():
       '--APIKey', action="store",
       help="APIKey for search.ch")
   parser_query.add_argument(
-      '--SplunkLookup', action="store", nargs=2, metavar=("NumberField", "NameField"),
+      '--SplunkLookup', action="store", nargs=2,
+                        metavar=("NumberField", "NameField"),
       help="use as an external lookup in splunk>; " + \
-           "requires the fieldname from which to read telephone number (NumberField) " + \
-           "and the fieldname into which to write the result (NameField)")
+           "requires the fieldname from which to read " + \
+           "telephone number (NumberField) and the fieldname " + \
+           "into which to write the result (NameField)")
   parser_query.add_argument(
       '--number', action="store", type=str,
-      help="an optional telephone number to query; if none is given the user will then be asked for one")
+      help="an optional telephone number to query; if none is " + \
+           "given the user will then be asked for one")
 
 
   # del subcommand
@@ -116,7 +154,8 @@ def parse_cmdline():
       help="Only list items of this type.")
   parser_list.add_argument(
       '--number', action="store", type=str,
-      help="an optional telephone number to list; if none is given all are listed")
+      help="an optional telephone number to list; if none is " + \
+           "given all are listed")
 
   # dump subcommand
   parser_dump = subparsers.add_parser("dump",
@@ -124,7 +163,8 @@ def parse_cmdline():
 
   # restore subcommand
   parser_restore = subparsers.add_parser("restore",
-      description="read a dumped cache from STDIN and overwrite the real cache with it")
+      description="read a dumped cache from STDIN and overwrite " + \
+                  "the real cache with it")
 
 
   if C.DEBUG:
