@@ -19,11 +19,11 @@ Coding Standards
   The changes are added to the CHANGELOG.md file.
   The following types are valid:
 
-  | type    | use | backward combatible? |
-  | ----    | --- | ---------------------- |
-  | change  | changes in defaults, behaviour etc. | if possible, but might not |
-  | feature | new functionality | should |
-  | fix     | fixing problems | strongly should |
-  | support | support for programmers etc, no change in functionality | must |
+| type    | use | backward combatible? |
+| ----    | --- | ---------------------- |
+| change  | changes in defaults, behaviour etc. | if possible, but might not |
+| feature | new functionality | should |
+| fix     | fixing problems | strongly should |
+| support | support for programmers etc, no change in functionality | must |
 
 # todo: (to be continued...)

@@ -4,6 +4,7 @@ CHANGELOG
 v0.3    - ????-???-??   - ???
 -----------------------------
 
+- support: update info files for compatibility with GitLab
 - change:  changed default locations for the cache, log and
            config files
            ATTENTION!
