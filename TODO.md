@@ -5,10 +5,6 @@ CODING.md
 ---------
 * further define and write down coding standards
 
-caching/cache_file.py
----------------------
-* file locking when reading and writing the cache
-
 funcs/cmdline.py
 ----------------
 * try parents with argparse for common attributes

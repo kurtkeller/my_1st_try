@@ -5,6 +5,7 @@
 import cPickle
 import time
 import json
+import fcntl
 from common import settings as C
 from common import logging as L
 
@@ -26,6 +27,8 @@ class cache_file():
             msg='action=init_cache type="file"')
         self.cache = {}
         self.cache_version = cache_version
+        self.cachefile = None
+        self.locked = False
 
     # ------------------------------------------------------------------------
     def __getitem__(self, key):
@@ -209,6 +212,66 @@ class cache_file():
         return self.cache.items()
 
     # ------------------------------------------------------------------------
+    def lock(self):
+    # ------------------------------------------------------------------------
+        """
+        lock the cache file
+
+        lock()
+        """
+
+        L.log(severity="I", msg="action=lock_cache type=file")
+
+        if self.locked:
+            return
+
+        try:
+            # need it open for write in order to lock it
+            self.cachefile = file(C.CacheFile,"r+")
+            L.log(severity="I", msg='action=lock_cache_open result=success')
+        except:
+            L.log(severity="W", msg='action=load_cache_open result=failure')
+            self.cachefile = None
+
+        if self.cachefile != None:
+            lock_try_counter = 0
+            while lock_try_counter < 3:
+                try:
+                    fcntl.lockf(self.cachefile,fcntl.LOCK_EX | LOCK_NB)
+                    self.locked = True
+                    L.log(severity="I",
+                          msg='action=lock_cache_lock result=success')
+                    break
+                except IOError:
+                    curr_msg='action=lock_cache_lock result=failure ' + \
+                             'loop=%s' % lock_try_counter
+                    L.log(severity="W", msg=curr_msg)
+                    lock_try_counter += 1
+                    time.sleep(1)
+
+    # ------------------------------------------------------------------------
+    def unlock(self):
+    # ------------------------------------------------------------------------
+        """
+        unlock the cache file
+
+        unlock()
+        """
+
+        L.log(severity="I", msg="action=unlock_cache type=file")
+
+        if not self.locked:
+            return
+
+        self.cachefile.flush()
+        fcntl.lockf(self.cachefile,fcntl.LOCK_UN)
+        self.cachefile.close()
+        self.cachefile = None
+        self.locked = False
+        L.log(severity="I", msg='action=unlock_cache result=success')
+
+
+    # ------------------------------------------------------------------------
     def load(self):
     # ------------------------------------------------------------------------
         """
@@ -219,9 +282,10 @@ class cache_file():
 
         L.log(severity="D", msg="action=load_cache type=file")
 
-        # todo: add file locking
+        self.lock()
+        self.cachefile.seek(0)
         try:
-            tmp_cache = cPickle.load(file(C.CacheFile,"r"))
+            tmp_cache = cPickle.load(self.cachefile)
             if tmp_cache.has_key("cache_version"):
                 tmp_version = tmp_cache["cache_version"]
             else:
@@ -243,12 +307,13 @@ class cache_file():
 
         L.log(severity="D", msg="action=save_cache type=file")
 
-        # todo: add file locking
+        self.lock()
+        self.cachefile.seek(0)
         tmp_cache = {"cache_version": self.cache_version,
                      "date_last_saved": time.time(),
                      "contents": self.cache}
         try:
-            cPickle.dump(tmp_cache, file(C.CacheFile,"w"))
+            cPickle.dump(tmp_cache, self.cachefile)
             L.log(severity="I", msg='action=save_cache result=success')
         except:
             L.log(severity="W", msg='action=save_cache result=failure')

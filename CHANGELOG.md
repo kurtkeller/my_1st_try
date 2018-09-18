@@ -4,6 +4,7 @@ CHANGELOG
 v0.3    - ????-???-??   - ???
 -----------------------------
 
+- change:  lock cache file locking when using a cache file
 - change:  lock logfile while writing to it
 - support: update info files for compatibility with GitLab
 - change:  changed default locations for the cache, log and
