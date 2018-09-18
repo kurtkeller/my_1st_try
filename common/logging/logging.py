@@ -3,8 +3,8 @@
 
 import sys
 import time
+import fcntl
 from common import settings as C
-# todo: add file locking
 
 # ----------------------------------------------------------------------
 # settings
@@ -126,6 +126,8 @@ def log(msg="no message given",
       fi_out = sys.stderr
 
   # ----------------------------------------------------------------------
+  # lock the file
+  fcntl.lockf(fi_out, fcntl.LOCK_EX)
   # write the logline
   print >>fi_out, "%s %s: %s" % (
                  time.strftime("%Y-%m-%dT%H:%M:%S",time.localtime(date)),
@@ -133,4 +135,6 @@ def log(msg="no message given",
   # do not close the file, because it could be sys.stdout or sys.stderr
   # but flush it to immediately see what is going on
   fi_out.flush()
+  # and unlock it
+  fcntl.lockf(fi_out, fcntl.LOCK_UN)
 

@@ -5,10 +5,6 @@ CODING.md
 ---------
 * further define and write down coding standards
 
-common/logging/logging.py
--------------------------
-* file locking for the logfile should be implemented
-
 caching/cache_file.py
 ---------------------
 * file locking when reading and writing the cache
