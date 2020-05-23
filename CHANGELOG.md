@@ -4,6 +4,7 @@ CHANGELOG
 v0.3    - ????-???-??   - ???
 -----------------------------
 
+- fix:     UTF-8 encode results for splunk>
 - change:  lock cache file locking when using a cache file
 - change:  lock logfile while writing to it
 - support: update info files for compatibility with GitLab

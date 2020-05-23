@@ -33,4 +33,6 @@ def splunk(cache, TelNumFieldname="number", NameFieldname="name"):
     for result in r:
         if result[TelNumFieldname]:
             result[NameFieldname] = lookup(cache, result[TelNumFieldname])
+            result[NameFieldname]=result[NameFieldname].encode('utf-8')
+            result[TelNumFieldname]=result[TelNumFieldname].encode('utf-8')
             w.writerow(result)
