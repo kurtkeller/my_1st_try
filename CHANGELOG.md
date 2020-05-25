@@ -4,6 +4,8 @@ CHANGELOG
 v0.3    - ????-???-??   - ???
 -----------------------------
 
+- fix:     handle successful lookup with empty resultset from
+           CH_lookup
 - fix:     UTF-8 encode results for splunk>
 - change:  lock cache file locking when using a cache file
 - change:  lock logfile while writing to it

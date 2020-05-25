@@ -42,9 +42,13 @@ class CH_lookup(base_lookup):
         # python3: { **{"was": question, "maxnum": 1}, **di_APIKey }
 
         # lookup unsuccessful
-        if rss.status != 200:
-            self.L.log(severity="W", msg='ID=%s status=%s msg="lookup unsuccessful"' % (
-                                self.ID, rss.status))
+        if (rss.status != 200) or (len(rss.entries) < 1):
+            if rss.status != 200:
+                self.L.log(severity="W", msg='ID=%s status=%s msg="lookup unsuccessful"' % (
+                                    self.ID, rss.status))
+            elif len(rss.entries) < 1:
+                self.L.log(severity="D", msg='action=do_lookup ID=%s msg="no results returned"' % (
+                                    self.ID))
             if question in cache:
                 self.L.log(severity="I", msg='ID="%s" location=%s answer="%s"' % (
                       self.ID, cache[question]["cache_type"] + "_expired",
@@ -61,8 +65,8 @@ class CH_lookup(base_lookup):
             for entry in rss.entries:
                 entrynum += 1
                 for key in entry.keys():
-                    self.L.log(severity="D", msg="entry=%d %s=%s" % (
-                          entrynum, key, entry[key]))
+                    self.L.log(severity="D", msg="action=do_lookup ID=%s entry=%d %s=%s" % (
+                          self.ID, entrynum, key, entry[key]))
 
         try:
             self.L.log(severity="I", msg='ID=%s location=%s answer="%s"' % (
