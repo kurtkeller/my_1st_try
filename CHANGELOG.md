@@ -1,9 +1,10 @@
 CHANGELOG
 =========
 
-v0.3    - ????-???-??   - ???
------------------------------
+v0.3    - 2020-Aug-22   - infant
+--------------------------------
 
+- support: correct imports headers and whitespace
 - fix:     handle successful lookup with empty resultset from
            CH_lookup
 - fix:     UTF-8 encode results for splunk>

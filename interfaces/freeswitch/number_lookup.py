@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# -*- coding: UTF-8 -*-
+# vim: set et ai ci sm tw=78 si sw=4 ru filetype=python fileencoding=utf-8 :
 
 import os
 import subprocess
@@ -17,5 +19,4 @@ def fsapi(session, stream, env, args):
 
         st_lookup=subprocess.check_output([grab_number, "query", "--number", args])
 	stream.write(args + " -> " + st_lookup)
-
 

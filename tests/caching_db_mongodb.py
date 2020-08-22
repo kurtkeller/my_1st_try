@@ -143,4 +143,4 @@ finally:
 
         assert BO_removed == True, \
                "failed to drop the test collection %s" % C.CacheDBTable
-  
+

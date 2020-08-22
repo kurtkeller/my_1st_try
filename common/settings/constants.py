@@ -5,6 +5,6 @@
 # constants
 # ------------------------------------------------------------------------
 # program version
-version = 0.2
+version = 0.3
 cache_version = 1.002
 APIurl = "http://tel.search.ch/api/"
