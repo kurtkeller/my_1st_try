@@ -30,10 +30,6 @@ def parse_cmdline():
       '--debug', action="store_true", dest="DEBUG",
       help="enable debugging output (default: %s)" % C.DEBUG)
   parser.add_argument(
-      '-c', '--config', action="store", type=argparse.FileType('r'),
-      dest="ConfigFile",
-      help="configuration file to use (default: %s)" % C.ConfigFile)
-  parser.add_argument(
       '-l', '--log', action="store", type=argparse.FileType('a'),
       dest="LogFile",
       help="log file to use (default: %s)" % C.LogFile)

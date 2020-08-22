@@ -4,6 +4,7 @@ CHANGELOG
 v0.5    - ????-???-??   - ???
 -----------------------------
 
+- feature: remove config file option
 - support: remove pycache dirs with make clean
 
 v0.3    - 2020-Aug-22   - infant

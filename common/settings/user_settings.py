@@ -10,7 +10,7 @@
 #CacheType = ""                     # [ file, db ]
 #CacheFile = ""                     # full path to (writable) cache file
 #CacheDBType = ""                   # cache DB type for CacheType=db
-                                    # [ mysql, mongodb ]
+                                    # [ mongodb ]
 #CacheDBHost = ""                   # cache DB host for CacheType=db
 #CacheDBPort = ""                   # cache DB port for CacheType=db
 #CacheDBName = ""                   # cache DB name for CacheType=db
@@ -20,5 +20,15 @@
 #CacheDBAuthDB = ""                 # cache DB auth DB for CacheType=db
 #LogFile = ""                       # full path to (writable) log file
 #LogLevel = "W"                     # don't write logs below this level
-#ConfigFile = ""                    # full path to (readable) config file
+                                    # [ X, D, I, N, W, E, C, A, P, S ]
+                                    # X -> eXtreme
+                                    # D -> Debug
+                                    # I -> Info
+                                    # N -> Notice
+                                    # W -> Warning
+                                    # E -> Error
+                                    # C -> Critical
+                                    # A -> Alert
+                                    # P -> Emergency
+                                    # S -> Silent
 #APIKey = ""                        # API key for search.ch

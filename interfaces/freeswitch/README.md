@@ -32,8 +32,7 @@ Installation
       this file).
    2. LogFile (make sure your FreeSwitch server can read and write
       this file).
-   3. ConfigFile (possibly)
-   4. APIKeys etc. you might need to access online lookup services.
+   3. APIKeys etc. you might need to access online lookup services.
 
 6. First of all, in your dialplan (for example default.xml), at the place
    where you would like to do the number lookup, add code like the
