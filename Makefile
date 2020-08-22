@@ -8,6 +8,7 @@ help:
 
 clean:
 	@find . -name "*.pyc" -print0 | xargs -0 rm 2>/dev/null || :
+	@find . -type d -name "__pycache__" -print0 | xargs -0 rmdir 2>/dev/null || :
 
 synchk:
 	@EXITCODE=0; \

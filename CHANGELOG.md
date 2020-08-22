@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+v0.5    - ????-???-??   - ???
+-----------------------------
+
+- support: remove pycache dirs with make clean
+
 v0.3    - 2020-Aug-22   - infant
 --------------------------------
 
