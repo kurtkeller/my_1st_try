@@ -4,7 +4,7 @@
 import csv
 import sys
 from funcs import *
-from common import settings as C
+from common import *
 
 """
     Modeled after the splunk external_lookup.py sample.

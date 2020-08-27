@@ -3,17 +3,17 @@
 
 import readline
 from funcs import *
-from common import settings as C
+from common import *
 
 # ------------------------------------------------------------------------
 # specify addresses manually
 def manual(cache):
     if C.number:
-        print lookup(cache, C.number)
+        print(lookup(cache, C.number))
     else:
         question = ""
         while question != "quit":
-            question = raw_input("key to lookup ('quit' to stop): ")
+            question = input("key to lookup ('quit' to stop): ")
             if question == "quit":
                 break
-            print lookup(cache, question)
+            print(lookup(cache, question))
