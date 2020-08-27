@@ -8,6 +8,7 @@ v0.5    - ????-???-??   - ???
 - support: remove pycache dirs with make clean
 - support: more info for INSTALL
 - support: update general info for python3
+- fix:     correct file locking bug
 
 v0.3    - 2020-Aug-22   - infant
 --------------------------------

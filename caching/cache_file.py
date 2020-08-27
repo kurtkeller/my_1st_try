@@ -237,7 +237,7 @@ class cache_file():
             lock_try_counter = 0
             while lock_try_counter < 3:
                 try:
-                    fcntl.lockf(self.cachefile,fcntl.LOCK_EX | LOCK_NB)
+                    fcntl.lockf(self.cachefile,fcntl.LOCK_EX | fcntl.LOCK_NB)
                     self.locked = True
                     L.log(severity="I",
                           msg='action=lock_cache_lock result=success')
