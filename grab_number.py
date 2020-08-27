@@ -4,7 +4,8 @@
 
 import time
 import sys
-from common import settings as C
+
+from common import *
 from funcs import *
 from interfaces import *
 from caching import Cache
@@ -12,13 +13,14 @@ from caching import Cache
 # ========================================================================
 # main
 # ========================================================================
+
 # ------------------------------------------------------------------------
 # get settings which override defaults
 parse_cmdline()
 
 # ------------------------------------------------------------------------
 # load the cache
-cache=Cache()
+cache = Cache()
 cache.load()
 
 # ------------------------------------------------------------------------
@@ -30,7 +32,7 @@ if C.parsed_command == "query":
       manual(cache)
 
 elif C.parsed_command == "list":
-  print cache.list()
+  print(cache.list())
 
 elif C.parsed_command == "del":
   del(cache[C.number])
@@ -42,7 +44,7 @@ elif C.parsed_command == "add":
                      "cache_version": C.cache_version}
 
 elif C.parsed_command == "dump":
-  print cache.list()
+  print(cache.list())
 
 elif C.parsed_command == "restore":
   cache.restore(sys.stdin.read())
