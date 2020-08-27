@@ -2,9 +2,8 @@
 # vim: set et ai ci sm tw=78 si sw=4 ru filetype=python fileencoding=utf-8 :
 
 import re
+from common import *
 from lookups import *
-from common import settings as C
-from common import logging as L
 
 # which lookup should be use?
 lookup_keys = (
