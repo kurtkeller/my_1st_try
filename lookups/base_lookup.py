@@ -3,7 +3,8 @@
 
 import time
 import random
-import sha
+from hashlib import sha1
+from common import *
 
 
 # ============================================================================
@@ -19,10 +20,6 @@ class base_lookup(object):
         """
         initialization
         """
-        from common import settings as C
-        self.C=C
-        from common import logging as L
-        self.L=L
 
     # ----------------------------------------------------------------------
     def lookup (self, cache, question):
@@ -32,8 +29,8 @@ class base_lookup(object):
         """
 
         # create a unique ID for this request to follow it though the log
-        self.ID=sha.sha(repr(random.random())).hexdigest()
-        self.L.log(severity="I", msg='ID=%s question="%s"' % (self.ID, question))
+        self.ID=sha1(repr(random.random()).encode()).hexdigest()
+        L.log(severity="I", msg='ID=%s question="%s"' % (self.ID, question))
 
         # first check whether it already is in the cache
         if question in cache:
@@ -62,7 +59,7 @@ class base_lookup(object):
         """
 
         if cache[question]["cache_type"] == "permanent":
-          self.L.log(severity="I", msg='ID=%s location=%s answer="%s"' % (
+          L.log(severity="I", msg='ID=%s location=%s answer="%s"' % (
                     self.ID, "cache_permanent", cache[question]["title"]))
           return (cache[question]["title"])
 
@@ -77,8 +74,8 @@ class base_lookup(object):
 
         if cache[question]["cache_type"] == "negative":
           if cache[question]["date_last_update"] > (
-                    int(time.time()) - self.C.CacheAgeNegative):
-            self.L.log(severity="I", msg='ID=%s location=%s answer="%s"' % (
+                    int(time.time()) - C.CacheAgeNegative):
+            L.log(severity="I", msg='ID=%s location=%s answer="%s"' % (
                       self.ID, "cache_negative", cache[question]["title"]))
             return (cache[question]["title"])
 
@@ -93,8 +90,8 @@ class base_lookup(object):
 
         if cache[question]["cache_type"] == "positive":
           if cache[question]["date_last_update"] > (
-                    int(time.time()) - self.C.CacheAge):
-            self.L.log(severity="I", msg='ID=%s location=%s answer="%s"' % (
+                    int(time.time()) - C.CacheAge):
+            L.log(severity="I", msg='ID=%s location=%s answer="%s"' % (
                       self.ID, "cache_positive", cache[question]["title"]))
             return (cache[question]["title"])
 

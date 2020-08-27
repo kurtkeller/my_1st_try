@@ -14,6 +14,7 @@ v0.5    - ????-???-??   - ???
 - change:  change common files to python3
 - change:  change funcs files to python3
 - change:  change interfaces files to python3
+- change:  change lookups files to python3
 
 v0.3    - 2020-Aug-22   - infant
 --------------------------------
