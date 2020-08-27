@@ -6,6 +6,7 @@ v0.5    - ????-???-??   - ???
 
 - feature: remove config file option
 - support: remove pycache dirs with make clean
+- support: more info for INSTALL
 
 v0.3    - 2020-Aug-22   - infant
 --------------------------------
