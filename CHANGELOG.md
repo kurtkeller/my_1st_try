@@ -10,6 +10,7 @@ v0.5    - ????-???-??   - ???
 - support: update general info for python3
 - fix:     correct file locking bug
 - change:  change caching files to python3
+- support: fix typos
 
 v0.3    - 2020-Aug-22   - infant
 --------------------------------

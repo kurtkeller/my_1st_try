@@ -33,7 +33,7 @@ def log(msg="no message given",
         severity="W", out=None, date=None):
 
   """
-  write a log entry if C.LogLevel is at or above the level of the message
+  write a log entry if C.LogLevel is at or above the severity of the message
 
   If C.LogLevel is "S" (=Silent), no logging will ever be written to the
   logfile.
@@ -45,7 +45,7 @@ def log(msg="no message given",
 
     msg         type:       string
                 description:
-                    the messae to write to the log
+                    the message to write to the log
 
     severity    type:       string
                 default:    W
