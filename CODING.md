@@ -12,6 +12,8 @@ Coding Standards
 * I'm not to be shot for using 2 spaces as indentation (old habit...).
 * Physical lines should not exceed 78 characters whenever possible.
 * No whitespace at the end of lines.
+* Coding is done for python3; python2 compatibility is not considered any more
+  after version v0.3.
 * Comments about things still needing to be done are prefixes with
       `# todo:`
   and a note in the TODO.md file is added.
