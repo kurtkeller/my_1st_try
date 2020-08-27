@@ -5,8 +5,7 @@
 import json
 import time
 import pymongo
-from common import settings as C
-from common import logging as L
+from common import *
 
 # ============================================================================
 class cache_db_mongodb():
@@ -41,7 +40,7 @@ class cache_db_mongodb():
         value=self.cache.find_one(filter={ "_id": key},
                                   projection={'_id': False})
         if type(value) != type(None):
-            if not value.has_key("cache_version"):
+            if not "cache_version" in value:
                 value["cache_version"] = 0.1
                 BO_changed = True
             if value["cache_version"] < self.cache_version:
@@ -61,7 +60,7 @@ class cache_db_mongodb():
 
         L.log(severity="D",
             msg='action=set_cache_item key="%s" value="%s"' % (key, value))
-        if not value.has_key("cache_version"):
+        if not "cache_version" in value:
             value["cache_version"] = self.cache_version
         self.cache.replace_one(filter={ "_id": key}, 
                                replacement=value,
@@ -109,12 +108,12 @@ class cache_db_mongodb():
         """
 
         L.log(severity="D", msg="action=start_cache_iteration")
-        self.iter = self.keys()
+        self.iter = list(self.keys())
         self.iter.sort()
         return self
 
     # ------------------------------------------------------------------------
-    def __next__(self): # Python 3: def __next__(self):
+    def __next__(self):
     # ------------------------------------------------------------------------
         """
         iteration should iterate through the cache
@@ -126,10 +125,6 @@ class cache_db_mongodb():
         currkey = self.iter[0]
         self.iter = self.iter[1:]
         return (currkey, self[currkey])
-
-    # Python 3: def __next__(self): / Python 2: def next(self):
-    # support both:
-    next = __next__
 
     # ------------------------------------------------------------------------
     def __repr__(self):
@@ -197,7 +192,7 @@ class cache_db_mongodb():
         """
 
         L.log(severity="D", msg="action=get_cache_keys")
-        return self.cache.distinct("_id")
+        return list(self.cache.distinct("_id"))
 
     # ------------------------------------------------------------------------
     def values(self):
@@ -218,7 +213,7 @@ class cache_db_mongodb():
 
         L.log(severity="D", msg="action=get_cache_items")
         result = []
-        for key in self.keys():
+        for key in list(self.keys()):
             result.append((key, self[key]))
         return result
 
@@ -317,13 +312,13 @@ class cache_db_mongodb():
         # before 1.000
         if tmp_version < 1.000:
             # not all entries did have a cache_type key
-            if not value.has_key("cache_type"):
+            if not "cache_type" in value:
                 value["cache_type"] = "negative"
 
         # before 1.000
         if tmp_version < 1.000:
             # might still have the last_update key instead of date_last_update
-            if value.has_key("last_update"):
+            if "last_update" in value:
                 value["date_last_update"] = value["last_update"]
                 value.pop("last_update")
 
@@ -344,21 +339,21 @@ class cache_db_mongodb():
         return a string of the contents of the cache in json format
         """
 
-        if C.__dict__.has_key("number") and C.number:
+        if "number" in C.__dict__ and C.number:
             if self.__contains__(C.number):
                 tmp_cache = { C.number: self[C.number]}
             else:
                 tmp_cache = { }
         else:
-            tmp_cache = dict(self.items())
+            tmp_cache = dict(list(self.items()))
         if C.ItemTypes != "all":
-            for key in tmp_cache.keys():
-                if (not tmp_cache[key].has_key("cache_type")) or \
+            for key in list(tmp_cache.keys()):
+                if (not "cache_type" in tmp_cache[key]) or \
                    (tmp_cache[key]["cache_type"] != C.ItemTypes):
                       tmp_cache.pop(key)
         if C.ReadableDates:
-            for key,value in tmp_cache.items():
-               for inner_key in value.keys():
+            for key,value in list(tmp_cache.items()):
+               for inner_key in list(value.keys()):
                     if inner_key[:5] == "date_":
                         tmp_cache[key]["readable_" + inner_key] = \
                             time.ctime(tmp_cache[key][inner_key])
@@ -388,14 +383,14 @@ class cache_db_mongodb():
         tmp_copy = self.dump()
 
         # delete all entries
-        for key in self.keys():
+        for key in list(self.keys()):
             self.__delitem__(key)
 
         try:
             # read in the new data
             tmp_cache = json.loads(data)
-            for key,value in tmp_cache.items():
-                if not value.has_key("cache_version"):
+            for key,value in list(tmp_cache.items()):
+                if not "cache_version" in value:
                     value["cache_version"] = 0.1
                 if value["cache_version"] < self.cache_version:
                     value = self._upgrade(value)
@@ -406,14 +401,13 @@ class cache_db_mongodb():
             L.log(severity="W", msg='action=restore_cache result=failure')
 
             # delete all entries
-            for key in self.keys():
+            for key in list(self.keys()):
                 self.__delitem__(key)
 
             # read in the saved data
             tmp_cache = json.loads(tmp_copy)
-            for key,value in tmp_cache.items():
+            for key,value in list(tmp_cache.items()):
                 self[key] = value
             L.log(severity="I", msg='action=restore_cache_revert result=success')
 
             return False
-
