@@ -4,7 +4,8 @@
 import sys
 import time
 import fcntl
-from common import settings as C
+# from C we use C.LogLevel C.LogFile C.DEBUG
+from .. import settings as C
 
 # ----------------------------------------------------------------------
 # settings
@@ -57,7 +58,7 @@ def log(msg="no message given",
                     Critical / Alert / Emergency (Panic)
 
     out         type:       filename
-                default:    LogFile
+                default:    C.LogFile
                 description:
                     the full path to a writable file which
                     will be opened in append mode and the
@@ -96,13 +97,14 @@ def log(msg="no message given",
 
   # ----------------------------------------------------------------------
   # check for valid severity
-  if (not severity in DI_severity.keys()) or \
+  if (not severity in list(DI_severity.keys())) or \
      (severity == "S") or \
      (severity == "X"):
-    print >>sys.stderr, "%s %s: %s" % (
-                          time.strftime("%Y-%m-%dT%H:%M:%S",time.localtime(date)),
-                          DI_severity["W"][1],
-                          "severity-code %s not valid, using W instead" % severity)
+    print("%s %s: %s" % (
+              time.strftime("%Y-%m-%dT%H:%M:%S",time.localtime(date)),
+              DI_severity["W"][1],
+              "severity-code %s not valid, using W instead" % severity),
+          file = sys.stderr)
     severity="W"
 
   # ----------------------------------------------------------------------
@@ -119,19 +121,21 @@ def log(msg="no message given",
     try:
       fi_out=open(out,"a")
     except:
-      print >>sys.stderr, "%s %s: %s" % (
-                            time.strftime("%Y-%m-%dT%H:%M:%S",time.localtime(date)),
-                            DI_severity["W"][1],
-                            "can not open logfile %s for writing" % out)
+      print("%s %s: %s" % (
+                time.strftime("%Y-%m-%dT%H:%M:%S",time.localtime(date)),
+                DI_severity["W"][1],
+                "can not open logfile %s for writing" % out),
+            file = sys.stderr)
       fi_out = sys.stderr
 
   # ----------------------------------------------------------------------
   # lock the file
   fcntl.lockf(fi_out, fcntl.LOCK_EX)
   # write the logline
-  print >>fi_out, "%s %s: %s" % (
-                 time.strftime("%Y-%m-%dT%H:%M:%S",time.localtime(date)),
-                 DI_severity[severity][1], msg.encode("UTF-8"))
+  print("%s %s: %s" % (
+            time.strftime("%Y-%m-%dT%H:%M:%S",time.localtime(date)),
+            DI_severity[severity][1], msg),
+         file = fi_out)
   # do not close the file, because it could be sys.stdout or sys.stderr
   # but flush it to immediately see what is going on
   fi_out.flush()

@@ -11,6 +11,7 @@ v0.5    - ????-???-??   - ???
 - fix:     correct file locking bug
 - change:  change caching files to python3
 - support: fix typos
+- change:  change common files to python3
 
 v0.3    - 2020-Aug-22   - infant
 --------------------------------
