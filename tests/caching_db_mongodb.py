@@ -23,7 +23,7 @@ testnum = "55555555"
 
 # ------------------------------------------------------------------------
 try:
-  print "=== test db cache mongodb: ",
+  print("=== test db cache mongodb: ", end="")
   C.CacheType="db"
   C.CacheDBType="mongodb"
   C.CacheDBHost="mongodb"
@@ -79,15 +79,15 @@ try:
            type(item[0]) == type(u"") and type(item[1]) == type({}), "for ... in unsuccessful"
   sys.stdout.write(".")
 
-  keys = cache.keys()
+  keys = list(cache.keys())
   assert type(keys) == type([]) and len(keys) > 0, "keys() unsuccessful"
   sys.stdout.write(".")
 
-  values = cache.values()
+  values = list(cache.values())
   assert type(values) == type([]) and len(values) > 0, "values() unsuccessful"
   sys.stdout.write(".")
 
-  items = cache.items()
+  items = list(cache.items())
   assert type(items) == type([]) and len(items) > 0, "items() unsuccessful"
   sys.stdout.write(".")
 
@@ -99,14 +99,14 @@ try:
   assert type(cache.list()) == type("") and \
          len(cache.list()) > 0, "list function and with it printing it unsuccessful"
 
-  print " all tests OK"
+  print(" all tests OK")
 
 except AssertionError as error:
-  print
-  print error
+  print("")
+  print(error)
 except Exception as error:
-  print
-  print error
+  print("")
+  print(error)
   raise
 finally:
         connstring = "mongodb://"
