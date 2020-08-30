@@ -17,6 +17,7 @@ v0.5    - ????-???-??   - ???
 - change:  change lookups files to python3
 - change:  change tests files to python3
 - change:  change main script to python3 and bump version
+- support: fix typo in help of dump command
 
 v0.3    - 2020-Aug-22   - infant
 --------------------------------

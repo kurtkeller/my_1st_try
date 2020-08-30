@@ -153,7 +153,7 @@ def parse_cmdline():
 
   # dump subcommand
   parser_dump = subparsers.add_parser("dump",
-      description="duump all entries in the cache to STDOUT")
+      description="dump all entries in the cache to STDOUT")
 
   # restore subcommand
   parser_restore = subparsers.add_parser("restore",
