@@ -21,7 +21,8 @@ parse_cmdline()
 # ------------------------------------------------------------------------
 # load the cache
 cache = Cache()
-cache.load()
+if not cache.load():
+    raise SystemExit("access to cache failed")
 
 # ------------------------------------------------------------------------
 if C.parsed_command == "query":

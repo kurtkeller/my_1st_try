@@ -224,6 +224,9 @@ class cache_db_mongodb():
         connect to the cache
 
         load_cache()
+
+        returns False upon failure
+                True  upon success
         """
 
         L.log(severity="D", msg="action=load_cache type=db.mongodb")
@@ -248,6 +251,7 @@ class cache_db_mongodb():
             client.server_info()   # fails if authentication failed
         except:
             L.log(severity="W", msg='action=load_cache step=connect result=failure')
+            return(False)
 
         # select the DB
         try:
@@ -255,18 +259,23 @@ class cache_db_mongodb():
             db.collection_names()  # fails if authentication failed
         except:
             L.log(severity="W", msg='action=load_cache step=select_db result=failure')
+            return(False)
 
         # select the collection
         try:
             collection = db[C.CacheDBTable]
         except:
             L.log(severity="W", msg='action=load_cache step=select_collection result=failure')
+            return(False)
 
         try:
             self.cache = collection
             L.log(severity="I", msg='action=load_cache result=success')
         except:
             L.log(severity="W", msg='action=load_cache result=failure')
+            return(False)
+
+        return(True)
 
     # ------------------------------------------------------------------------
     def save(self):

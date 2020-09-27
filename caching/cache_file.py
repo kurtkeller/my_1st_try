@@ -273,6 +273,9 @@ class cache_file():
         load the cache from a file
 
         load()
+
+        returns False upon failure
+                True  upon success
         """
 
         L.log(severity="D", msg="action=load_cache type=file")
@@ -289,6 +292,9 @@ class cache_file():
             L.log(severity="I", msg='action=load_cache result=success')
         except:
             L.log(severity="W", msg='action=load_cache result=failure')
+            return(False)
+
+        return(True)
 
 
     # ------------------------------------------------------------------------
