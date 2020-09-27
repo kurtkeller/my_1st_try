@@ -32,3 +32,15 @@
                                     # P -> Emergency
                                     # S -> Silent
 #APIKey = ""                        # API key for search.ch
+
+
+# You can also copy this file to user_settings_private.py and use the
+# values in there, AFTER(!!!) removing the lines following this comment.
+# The user_settings_private.py file is, by default, excluded from git to
+# keep your private connection settings private and outside of repositories.
+# The user_settings_private.py file can be used if you want to checkin
+# files AND your private settings into your own private git repository.
+try:
+    from . user_settings_private import *
+except:
+    pass

@@ -1,3 +1,4 @@
 *.pyc
 .*.swp
 __ignore__/
+*_private.py

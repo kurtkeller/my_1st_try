@@ -20,6 +20,7 @@ v0.5    - ????-???-??   - ???
 - support: fix typo in help of dump command
 - support: show help if no command given
 - fix:     exit with failure if cache unaccessible
+- support: create a git-excluded private settings file
 
 v0.3    - 2020-Aug-22   - infant
 --------------------------------
