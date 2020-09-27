@@ -48,3 +48,7 @@ elif C.parsed_command == "dump":
 
 elif C.parsed_command == "restore":
   cache.restore(sys.stdin.read())
+
+else:
+  sys.argv[1:] = ["--help"]
+  parse_cmdline()

@@ -18,6 +18,7 @@ v0.5    - ????-???-??   - ???
 - change:  change tests files to python3
 - change:  change main script to python3 and bump version
 - support: fix typo in help of dump command
+- support: show help if no command given
 
 v0.3    - 2020-Aug-22   - infant
 --------------------------------
