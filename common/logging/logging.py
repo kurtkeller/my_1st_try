@@ -91,10 +91,6 @@ def log(msg="no message given",
   if not date:
     date=int(time.time())
 
-  # debug output goes to STDERR, not the logfile, unless tmp_LogLevel is "X"
-  if (severity == "D") and (tmp_LogLevel != "X"):
-    out=sys.stderr
-
   # ----------------------------------------------------------------------
   # check for valid severity
   if (not severity in list(DI_severity.keys())) or \
@@ -112,11 +108,17 @@ def log(msg="no message given",
   if DI_severity[severity][0] > DI_severity[tmp_LogLevel][0]:
     return
 
+  # debug output goes to STDERR, not the logfile, unless tmp_LogLevel is "X"
+  if (severity == "D") and (tmp_LogLevel != "X"):
+    out=sys.stderr
+
   # ----------------------------------------------------------------------
   # check for valid output file
   try:
     scr=out.fileno
     fi_out=out
+    if fi_out.closed:
+      fi_out = open(fi_out.name,"a")
   except AttributeError:
     try:
       fi_out=open(out,"a")
@@ -136,9 +138,7 @@ def log(msg="no message given",
             time.strftime("%Y-%m-%dT%H:%M:%S",time.localtime(date)),
             DI_severity[severity][1], msg),
          file = fi_out)
-  # do not close the file, because it could be sys.stdout or sys.stderr
-  # but flush it to immediately see what is going on
+  # flush it to immediately see what is going on
   fi_out.flush()
   # and unlock it
   fcntl.lockf(fi_out, fcntl.LOCK_UN)
-

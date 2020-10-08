@@ -135,6 +135,7 @@ def parse_cmdline():
       '--Title', action="store", type=str, required=True,
       help="the text/title to add for this number")
 
+#todo: KK: test whether we can here use ItemType (instead of ItemTypes (with trailing s), like in other places!
 
   # list subcommand
   parser_list = subparsers.add_parser("list",

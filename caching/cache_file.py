@@ -30,6 +30,15 @@ class cache_file():
         self.locked = False
 
     # ------------------------------------------------------------------------
+    def __del__(self):
+    # ------------------------------------------------------------------------
+        """
+        class destruction
+        """
+
+        self.unlock()           # also closes the file
+
+    # ------------------------------------------------------------------------
     def __getitem__(self, key):
     # ------------------------------------------------------------------------
         """
@@ -315,6 +324,8 @@ class cache_file():
                      "contents": self.cache}
         try:
             pickle.dump(tmp_cache, self.cachefile)
+            # do not flush immediately
+            #self.cachefile.flush()
             L.log(severity="I", msg='action=save_cache result=success')
         except:
             L.log(severity="W", msg='action=save_cache result=failure')

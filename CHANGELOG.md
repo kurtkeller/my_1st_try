@@ -21,6 +21,7 @@ v0.5    - ????-???-??   - ???
 - support: show help if no command given
 - fix:     exit with failure if cache unaccessible
 - support: create a git-excluded private settings file
+- change:  convert for python3
 
 v0.3    - 2020-Aug-22   - infant
 --------------------------------

@@ -85,7 +85,7 @@ class cache_db_mongodb():
         """
 
         L.log(severity="D", msg="action=get_cache_length")
-        return self.cache.count()
+        return self.cache.estimated_document_count()
 
     # ------------------------------------------------------------------------
     def __contains__(self, key):
@@ -256,7 +256,7 @@ class cache_db_mongodb():
         # select the DB
         try:
             db = client[C.CacheDBName]
-            db.collection_names()  # fails if authentication failed
+            db.list_collection_names()  # fails if authentication failed
         except:
             L.log(severity="W", msg='action=load_cache step=select_db result=failure')
             return(False)
@@ -420,3 +420,21 @@ class cache_db_mongodb():
             L.log(severity="I", msg='action=restore_cache_revert result=success')
 
             return False
+
+    # ------------------------------------------------------------------------
+    def disconnect(self):
+    # ------------------------------------------------------------------------
+        """
+        disconnect from the DB
+        """
+
+        # safety copy to restore if import fails
+#        self.client.close()
+#        del(self.cache)
+#        del(self.collection)
+#        del(self.db)
+#        del(self.client)
+#        self.client=False
+#        del(self)
+
+        pass

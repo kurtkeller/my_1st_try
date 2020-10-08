@@ -24,6 +24,7 @@ Python3 must be used and the following modules are required:
 | pickle       | standard library | |
 | json         | standard library | |
 | unittest     | standard library | |
+| io           | standard library | |
 | feedparser   | extension        | https://pypi.org/project/feedparser/ |
 | pymongo      | extension        | https://pypi.org/project/pymongo/ |
 
