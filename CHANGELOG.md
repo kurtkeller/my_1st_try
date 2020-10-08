@@ -22,6 +22,7 @@ v0.5    - ????-???-??   - ???
 - fix:     exit with failure if cache unaccessible
 - support: create a git-excluded private settings file
 - change:  convert for python3
+- support: add lots of unittests
 
 v0.3    - 2020-Aug-22   - infant
 --------------------------------
