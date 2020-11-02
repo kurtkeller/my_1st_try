@@ -23,6 +23,7 @@ v0.5    - ????-???-??   - ???
 - support: create a git-excluded private settings file
 - change:  convert for python3
 - support: add lots of unittests
+- fix:     correct output for splunk interface
 
 v0.3    - 2020-Aug-22   - infant
 --------------------------------
