@@ -1,6 +1,10 @@
 To Do
 =====
 
+interfaces/freeswitch/*
+-----------------------
+* completely remove the freeswitch interface
+
 CODING.md
 ---------
 * further define and write down coding standards

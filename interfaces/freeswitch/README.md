@@ -1,3 +1,26 @@
+Deprecation Notice
+==================
+
+As of August 2021, FreeSwitch still uses python 2 for mod_python,
+even though the last version of python2 has been end-of-life for
+more than one year and a half. Python3 has been available since
+2008! It appears several people have tried to compile mod_python
+for python3, but not really succeeded. grab_number.py no longer
+supports end-of-life python2 and therefor the FreeSwitch interface,
+which is still based on python2, is deprecated and no longer
+supported or tested and will be removed completely in a future
+version.
+
+An alternative option to use grab_number with FreeSwitch, without
+relying on mod_python, is to call the grab_number.py script directly
+with the necessary parameters. Care must be taken to use the --NoLF
+option, because if the string returned from the script contains
+any newlines, these are propagated to the SIP headers and things do
+no longer work properly (e.g. not able to pick up incoming calls).
+
+An action in the FreeSwitch dialplan to call grab_number.py directly could look like this:
+<action application="set" data="effective_caller_id_name=${system(/usr/local/freeswitch/scripts/grab_number/grab_number.py query --NoLF --number '${caller_id_name}'}"/>
+
 Interface for FreeSwitch
 ========================
 

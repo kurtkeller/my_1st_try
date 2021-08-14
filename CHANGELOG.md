@@ -24,6 +24,7 @@ v0.5    - ????-???-??   - ???
 - change:  convert for python3
 - support: add lots of unittests
 - fix:     correct output for splunk interface
+- change:  deprecate FreeSwitch interface
 
 v0.3    - 2020-Aug-22   - infant
 --------------------------------
