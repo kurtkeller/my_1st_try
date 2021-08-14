@@ -1,8 +1,11 @@
 CHANGELOG
 =========
 
-v0.5    - ????-???-??   - ???
+v?.?    - ????-???-??   - ???
 -----------------------------
+
+v0.5    - 2021-Aug-14   - infant
+--------------------------------
 
 - feature: remove config file option
 - support: remove pycache dirs with make clean
@@ -26,6 +29,7 @@ v0.5    - ????-???-??   - ???
 - fix:     correct output for splunk interface
 - change:  deprecate FreeSwitch interface
 - support: add logo
+- feature: add --NoLF switch to query command and bump version
 
 v0.3    - 2020-Aug-22   - infant
 --------------------------------

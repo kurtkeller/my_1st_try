@@ -34,3 +34,4 @@ APIKey = ""
 # some of them can be overridden with commandline arguments
 ItemTypes = "all"
 ReadableDates = False
+NoLF = False

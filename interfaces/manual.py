@@ -8,12 +8,16 @@ from common import *
 # ------------------------------------------------------------------------
 # specify addresses manually
 def manual(cache):
+    if C.NoLF:
+        str_end = ""
+    else:
+        str_end = "\n"
     if C.number:
-        print(lookup(cache, C.number))
+        print(lookup(cache, C.number), end=str_end)
     else:
         question = ""
         while question != "quit":
             question = input("key to lookup ('quit' to stop): ")
             if question == "quit":
                 break
-            print(lookup(cache, question))
+            print(lookup(cache, question), end=str_end)

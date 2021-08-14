@@ -636,6 +636,29 @@ class CommandLineTests(unittest.TestCase):
             sys.argv = self.copy_argv[:]
 
     # ------------------------------------------------------------------------
+    def test_query_NoLF(self):
+        command = "query"
+        for param in ("--NoLF",):
+            # backup real settings
+            try:
+              copy_NoLF = C.NoLF
+              had_NoLF = True
+            except:
+              had_NoLF = False
+
+            # test
+            sys.argv = [self.copy_argv[0], command, param]
+            parse_cmdline()
+            self.assertEqual(C.NoLF, True)
+
+            # restore real settings
+            if had_NoLF:
+                C.NoLF = copy_NoLF
+            else:
+                del(C.NoLF)
+            sys.argv = self.copy_argv[:]
+
+    # ------------------------------------------------------------------------
     def test_query_number(self):
         command = "query"
         for param in ("--number",):
@@ -699,6 +722,11 @@ class CommandLineTests(unittest.TestCase):
         except:
           had_SplunkLookup = False
         try:
+          copy_NoLF = C.NoLF
+          had_NoLF = True
+        except:
+          had_NoLF = False
+        try:
           copy_number = C.number
           had_number = True
         except:
@@ -716,6 +744,19 @@ class CommandLineTests(unittest.TestCase):
         parse_cmdline()
         self.assertEqual(C.APIKey, APIKey)
         self.assertEqual(C.SplunkLookup, [numberfield, namefield])
+        self.assertEqual(C.NoLF, False)
+        self.assertEqual(C.number, number)
+        self.assertEqual(C.parsed_command, command)
+
+        sys.argv = [self.copy_argv[0], command,
+                    "--APIKey", APIKey,
+                    "--SplunkLookup", numberfield, namefield,
+                    "--NoLF",
+                    "--number", number]
+        parse_cmdline()
+        self.assertEqual(C.APIKey, APIKey)
+        self.assertEqual(C.SplunkLookup, [numberfield, namefield])
+        self.assertEqual(C.NoLF, True)
         self.assertEqual(C.number, number)
         self.assertEqual(C.parsed_command, command)
 
@@ -729,6 +770,10 @@ class CommandLineTests(unittest.TestCase):
             C.SplunkLookup = copy_SplunkLookup
         else:
             del(C.SplunkLookup)
+        if had_NoLF:
+            C.NoLF = copy_NoLF
+        else:
+            del(C.NoLF)
         if had_number:
             C.number = copy_number
         else:

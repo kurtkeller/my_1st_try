@@ -108,6 +108,9 @@ def parse_cmdline():
            "telephone number (NumberField) and the fieldname " + \
            "into which to write the result (NameField)")
   parser_query.add_argument(
+      '--NoLF', action="store_true",
+      help="return the result without linefeed character")
+  parser_query.add_argument(
       '--number', action="store", type=str,
       help="an optional telephone number to query; if none is " + \
            "given the user will then be asked for one")
