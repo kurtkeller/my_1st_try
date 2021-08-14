@@ -25,6 +25,7 @@ v0.5    - ????-???-??   - ???
 - support: add lots of unittests
 - fix:     correct output for splunk interface
 - change:  deprecate FreeSwitch interface
+- support: add logo
 
 v0.3    - 2020-Aug-22   - infant
 --------------------------------
