@@ -24,6 +24,7 @@ v0.5    - ????-???-??   - ???
 - change:  convert for python3
 - support: add lots of unittests
 - fix:     correct output for splunk interface
+- change:  just a dummy change to test XMPP notification with new XMPP server
 
 v0.3    - 2020-Aug-22   - infant
 --------------------------------
